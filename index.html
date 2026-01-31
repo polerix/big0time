@@ -3,11 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome</title>
+  <title>BIG0TIME</title>
   <style>
     :root {
-      --amber: #FFBF00;
-      --bg: #000;
+      /* “wise terminal, corporate-boring, ~1990” */
+      --bg: #0a0c0b;
+      --panel: #050606;
+      --frame: rgba(210, 255, 200, 0.35);
+      --text: #d4ffd4;
+      --muted: rgba(212, 255, 212, 0.72);
+      --hot: #b8ffb8;
+
+      --shadow: 0 0 10px rgba(150, 255, 150, 0.12);
+      --radius: 12px;
     }
 
     html, body {
@@ -16,170 +24,228 @@
 
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--amber);
-      font-family: "Courier New", Courier, monospace;
-      text-align: center;
+      background: radial-gradient(1200px 700px at 50% 35%, rgba(170, 255, 180, 0.06), transparent 55%), var(--bg);
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing: 0.2px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
+      display: grid;
+      place-items: center;
+    }
 
-      position: relative;
+    /* No scanlines, no flicker, no jitter. Just a calm terminal glow. */
+    body, button, a {
+      text-shadow: var(--shadow);
+    }
+
+    .shell {
+      width: min(820px, calc(100vw - 28px));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%), var(--panel);
+      border: 1px solid var(--frame);
+      border-radius: var(--radius);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.35) inset,
+        0 22px 80px rgba(0, 0, 0, 0.65);
       overflow: hidden;
     }
 
-    /* CRT glow on all text */
-    body, button, #symbol, #content {
-      text-shadow:
-        0 0 4px rgba(255, 191, 0, 0.55),
-        0 0 10px rgba(255, 191, 0, 0.30),
-        0 0 18px rgba(255, 191, 0, 0.18);
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(210, 255, 200, 0.18);
+      background: rgba(255, 255, 255, 0.02);
     }
 
-    /* Slight "tube" vignette + overall warmth */
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at center,
-          rgba(255, 191, 0, 0.08) 0%,
-          rgba(0, 0, 0, 0.00) 45%,
-          rgba(0, 0, 0, 0.55) 100%);
-      mix-blend-mode: screen;
-      opacity: 0.9;
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
     }
 
-    /* Scanlines + subtle shimmer */
-    body::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255, 191, 0, 0.04) 0px,
-          rgba(255, 191, 0, 0.02) 1px,
-          rgba(0, 0, 0, 0.00) 2px,
-          rgba(0, 0, 0, 0.00) 4px
-        );
-      opacity: 0.35;
-      animation: scan 6s linear infinite;
+    .brand .h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
     }
 
-    @keyframes scan {
-      0%   { transform: translateY(0); }
-      100% { transform: translateY(12px); }
+    .brand .h2 {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.8px;
     }
 
-    /* Apply flicker to the main content group */
-    .crt {
-      position: relative;
-      z-index: 1;
-      filter: saturate(1.05) contrast(1.05);
-      animation: flicker 4.2s infinite;
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
     }
 
-    @keyframes flicker {
-      /* Mostly stable; occasional tiny dips/jumps */
-      0%   { opacity: 1; }
-      2%   { opacity: 0.95; }
-      3%   { opacity: 1; }
-      7%   { opacity: 0.98; }
-      8%   { opacity: 1; }
-      20%  { opacity: 0.96; }
-      21%  { opacity: 1; }
-      40%  { opacity: 0.99; }
-      41%  { opacity: 0.94; }
-      42%  { opacity: 1; }
-      70%  { opacity: 0.97; }
-      71%  { opacity: 1; }
-      100% { opacity: 1; }
+    .content {
+      padding: 16px 14px 18px;
     }
 
-    /* Gentle text jitter (very small) to sell the CRT feel */
-    .crt-jitter {
-      display: inline-block;
-      animation: jitter 9s infinite;
+    .menu {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    @keyframes jitter {
-      0%, 100% { transform: translate(0, 0); }
-      10%      { transform: translate(0.2px, -0.1px); }
-      11%      { transform: translate(-0.3px, 0.1px); }
-      12%      { transform: translate(0, 0); }
-      55%      { transform: translate(0.15px, 0.05px); }
-      56%      { transform: translate(-0.2px, -0.05px); }
-      57%      { transform: translate(0, 0); }
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid rgba(210, 255, 200, 0.18);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.01);
     }
 
-    #content {
-      font-size: 40px;
-      letter-spacing: 1px;
+    .label {
+      text-align: left;
+      line-height: 1.25;
+    }
+
+    .label .name {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: var(--hot);
+    }
+
+    .label .desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
     }
 
     a {
+      color: inherit;
       text-decoration: none;
-      z-index: 1;
     }
 
     button {
       background: transparent;
-      color: var(--amber);
-      border: 2px solid var(--amber);
+      color: var(--text);
+      border: 1px solid rgba(210, 255, 200, 0.35);
       font-family: inherit;
-      font-size: 16px;
-      padding: 10px 20px;
+      font-size: 12px;
+      padding: 9px 12px;
+      border-radius: 10px;
       cursor: pointer;
-
-      box-shadow:
-        0 0 8px rgba(255, 191, 0, 0.25),
-        inset 0 0 10px rgba(255, 191, 0, 0.08);
     }
 
     button:hover {
-      filter: brightness(1.12);
-      box-shadow:
-        0 0 12px rgba(255, 191, 0, 0.32),
-        inset 0 0 12px rgba(255, 191, 0, 0.10);
+      border-color: rgba(210, 255, 200, 0.62);
+      background: rgba(210, 255, 200, 0.04);
     }
 
-    #symbol {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 2;
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(210, 255, 200, 0.12);
+      color: rgba(212, 255, 212, 0.60);
+      font-size: 12px;
     }
 
-    /* Respect users who prefer reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      body::after,
-      .crt,
-      .crt-jitter {
-        animation: none !important;
-      }
+    /* Maze entry: unobtrusive, but clickable if you know. */
+    .glyph {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .glyph:hover {
+      border-color: rgba(210, 255, 200, 0.32);
+      background: rgba(210, 255, 200, 0.03);
     }
   </style>
 </head>
 
 <body>
-  <div class="crt">
-    <div id="content" class="crt-jitter">BIG0TIME.NET</div>
+  <main class="shell">
+    <header class="titlebar">
+      <div class="brand">
+        <div class="h1">BIG0TIME.NET</div>
+        <div class="h2">PROJECT PORTAL / DEMOS / LAB NOTES</div>
+      </div>
+      <div class="status">STATUS: STABLE • MODE: OPERATOR</div>
+    </header>
 
-    <a href="https://polerix.github.io/SwarmSystemLab/" target="_blank" rel="noopener noreferrer">
-      <button type="button" class="crt-jitter">Swarm System Lab</button>
-    </a>
-    <a href="https://polerix.github.io/MooShoother/" target="_blank" rel="noopener noreferrer">
-      <button type="button" class="crt-jitter">MooShooter</button>
-    </a>
-  </div>
+    <section class="content">
+      <div style="color: var(--muted); font-size: 12px; line-height: 1.4; text-align: left;">
+        Select a destination.
+        Buttons are redundant on purpose.
+      </div>
 
-  <div id="symbol" class="crt-jitter" onclick="location.href='otv-main.html';">Θ</div>
+      <div class="menu">
+        <!-- Requested: top of list -->
+        <div class="item">
+          <div class="label">
+            <div class="name">Mobius Mushroom Farm</div>
+            <div class="desc">World / lore / build logs (repo link for now)</div>
+          </div>
+          <div class="actions">
+            <a href="https://github.com/polerix/Mobius-Mushroom-Farm" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
+            <a href="https://github.com/polerix/Mobius-Mushroom-Farm" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">
+            <div class="name">Tornado Cones</div>
+            <div class="desc">Visuals / web experiments (repo link for now)</div>
+          </div>
+          <div class="actions">
+            <a href="https://github.com/polerix/TornadoCones" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
+            <a href="https://github.com/polerix/TornadoCones" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">
+            <div class="name">Swarm System Lab</div>
+            <div class="desc">Autonomous hive warfare sandbox</div>
+          </div>
+          <div class="actions">
+            <a href="https://polerix.github.io/SwarmSystemLab/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
+            <a href="https://github.com/polerix/SwarmSystemLab" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="label">
+            <div class="name">MooShooter</div>
+            <div class="desc">Web demo</div>
+          </div>
+          <div class="actions">
+            <a href="https://polerix.github.io/MooShoother/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
+            <a href="https://github.com/polerix/MooShoother" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>BIG0TIME / INDEX</div>
+        <a class="glyph" href="otv-main.html" title="If you know, you know">Θ</a>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
