@@ -161,6 +161,14 @@ def generate_project_html(project_name: str, project_dir: Path) -> str:
     is_recent = is_recently_modified(project_dir)
     description = get_project_description(project_dir)
 
+    # Strip HTML tags from description for clean display
+    import re
+    description = re.sub(r'<[^>]+>', '', description)
+    # Clean up common artifacts
+    description = description.replace('**', '').replace('\\u', '').strip()
+    if len(description) > 80:
+        description = description[:77] + '...'
+
     # Determine the open URL
     if has_landing:
         open_url = get_deployed_url(project_name)
@@ -171,21 +179,20 @@ def generate_project_html(project_name: str, project_dir: Path) -> str:
 
     github_url = get_github_url(project_name)
 
-    # Generate the HTML
+    # Generate the HTML (bubble style)
     fire_icon = "🔥 " if is_recent else ""
-    gray_style = 'style="opacity: 0.5;"' if not has_landing else ""
-    name_class = 'class="name"' if has_landing else 'class="name muted"'
+    muted_class = " muted" if not has_landing else ""
 
-    html = f'''        <div class="item">
-          <div class="label">
-            <div {name_class}>{fire_icon}{project_name}</div>
-            <div class="desc">{description}</div>
-          </div>
-          <div class="actions">
-            <a href="{open_url}" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="{github_url}" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>'''
+    html = f'''      <div class="bubble{muted_class}" data-name="{project_name}">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">{fire_icon}{project_name}</div>
+        <div class="desc">{description}</div>
+        <div class="actions">
+          <a href="{open_url}" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="{github_url}" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>'''
 
     return html
 
@@ -254,12 +261,12 @@ def update_index_html():
         print("ERROR: Could not find menu markers in index.html")
         return
 
-    # Build new template
+    # Build new template (bubble grid style)
     new_template = (
         template[:start_idx + len(menu_start)] +
-        '\n' +
+        '\n    <div class="grid">' +
         '\n'.join(project_entries) +
-        '\n' +
+        '\n    </div>' +
         template[end_idx:]
     )
 

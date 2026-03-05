@@ -7,665 +7,791 @@
   <title>BIG0TIME</title>
   <style>
     :root {
-      /* “wise terminal, corporate-boring, ~1990” */
-      --bg: #0a0c0b;
-      --panel: #050606;
-      --frame: rgba(210, 255, 200, 0.35);
-      --text: #d4ffd4;
-      --muted: rgba(212, 255, 212, 0.72);
-      --hot: #b8ffb8;
-
-      --shadow: 0 0 10px rgba(150, 255, 150, 0.12);
-      --radius: 12px;
+      --bg: #050508;
+      --glass: rgba(20, 25, 35, 0.6);
+      --glass-border: rgba(120, 140, 180, 0.15);
+      --glass-highlight: rgba(180, 200, 255, 0.08);
+      --text: #c8d4f0;
+      --text-dim: rgba(200, 212, 240, 0.5);
+      --accent: #7af;
     }
 
-    html,
-    body {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
       min-height: 100vh;
     }
 
     body {
-      margin: 0;
-      background: radial-gradient(1200px 700px at 50% 35%, rgba(170, 255, 180, 0.06), transparent 55%), var(--bg);
+      background: var(--bg);
       color: var(--text);
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      letter-spacing: 0.2px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 0;
-      box-sizing: border-box;
+      padding: 40px 20px;
+      overflow-x: hidden;
     }
 
-    /* No scanlines, no flicker, no jitter. Just a calm terminal glow. */
-    body,
-    button,
-    a {
-      text-shadow: var(--shadow);
+    /* Blacklight ambient glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(ellipse 800px 600px at 30% 20%, rgba(100, 60, 180, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 600px 400px at 70% 80%, rgba(60, 100, 180, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 500px 300px at 50% 50%, rgba(80, 80, 120, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .shell {
-      width: min(820px, calc(100vw - 28px));
-      margin: 0;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%), var(--panel);
-      border: 1px solid var(--frame);
-      border-radius: var(--radius);
-      box-shadow:
-        0 0 0 1px rgba(0, 0, 0, 0.35) inset,
-        0 22px 80px rgba(0, 0, 0, 0.65);
+    /* Mouse light cursor (invisible but affects bubbles) */
+    #mouse-light {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 220, 255, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    body:hover #mouse-light {
+      opacity: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--text);
+      text-shadow: 0 0 30px rgba(120, 170, 255, 0.3);
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* Grid of glass bubbles */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .bubble {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 20px;
+      min-height: 100px;
+      position: relative;
       overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      backdrop-filter: blur(10px);
     }
 
-    .titlebar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(210, 255, 200, 0.18);
-      background: rgba(255, 255, 255, 0.02);
+    /* Glass edge highlight (top-left) */
+    .bubble::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     }
 
-    .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      text-align: left;
+    /* Glass edge highlight (bottom-right) */
+    .bubble::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 1px;
+      height: 60%;
+      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.05), transparent);
     }
 
-    .brand .h1 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1.6px;
+    /* Inner glow base */
+    .bubble .inner-glow {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      height: 80%;
+      border-radius: 12px;
+      background: radial-gradient(ellipse at 30% 30%, var(--glass-highlight) 0%, transparent 60%);
+      pointer-events: none;
     }
 
-    .brand .h2 {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.8px;
+    .bubble:hover {
+      transform: translateY(-4px);
+      border-color: rgba(120, 170, 255, 0.3);
+      box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    .status {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: right;
-      white-space: nowrap;
+    /* Mouse proximity light effect */
+    .bubble .light-spot {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 220, 255, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.15s;
     }
 
-    .content {
-      padding: 16px 14px 18px;
+    .bubble.near .light-spot {
+      opacity: 1;
     }
 
-    .menu {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      border: 1px solid rgba(210, 255, 200, 0.18);
-      border-radius: 10px;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.01);
-    }
-
-    .label {
-      text-align: left;
-      line-height: 1.25;
-    }
-
-    .label .name {
+    .bubble .name {
       font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      color: var(--hot);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 2;
     }
 
-    .label .name.muted {
-      color: var(--muted);
-      opacity: 0.6;
+    .bubble .name .fire {
+      margin-right: 4px;
     }
 
-    .label .desc {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
+    .bubble.muted .name {
+      color: var(--text-dim);
     }
 
-    .actions {
+    .bubble .desc {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.4;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .bubble .desc a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .bubble .actions {
       display: flex;
       gap: 8px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 2;
     }
 
-    a {
+    .bubble a {
       color: inherit;
       text-decoration: none;
     }
 
-    button {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid rgba(210, 255, 200, 0.35);
+    .bubble button {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       font-family: inherit;
-      font-size: 12px;
-      padding: 9px 12px;
-      border-radius: 10px;
+      font-size: 10px;
+      padding: 6px 12px;
+      border-radius: 6px;
       cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    button:hover {
-      border-color: rgba(210, 255, 200, 0.62);
-      background: rgba(210, 255, 200, 0.04);
+    .bubble button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     .footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(210, 255, 200, 0.12);
-      color: rgba(212, 255, 212, 0.60);
-      font-size: 12px;
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 2px;
     }
 
-    /* Maze entry: unobtrusive, but clickable if you know. */
-    .glyph {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      user-select: none;
+    .footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
     }
 
-    .glyph:hover {
-      border-color: rgba(210, 255, 200, 0.32);
-      background: rgba(210, 255, 200, 0.03);
+    .footer a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 20px;
+        letter-spacing: 4px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main class="shell">
-    <header class="titlebar">
-      <div class="brand">
-        <div class="h1">BIG0TIME.NET</div>
-        <div class="h2">PROJECT PORTAL / DEMOS / LAB NOTES</div>
-      </div>
-      <div class="status">STATUS: STABLE • MODE: OPERATOR</div>
+  <div id="mouse-light"></div>
+
+  <div class="container">
+    <header>
+      <h1>BIG0TIME</h1>
+      <p>Project Portal / Demos / Lab Notes</p>
     </header>
 
-    <section class="content">
-      <div style="color: var(--muted); font-size: 12px; line-height: 1.4; text-align: left;">
-        Select a destination.
-        Buttons are redundant on purpose.
+    <!-- MENU START -->
+    <div class="grid">
+      <div class="bubble" data-name="BusBroadcaster">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 BusBroadcaster</div>
+        <div class="desc">A gritty, lo-fi UHF-themed stealth + resource-management ...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/BusBroadcaster/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/BusBroadcaster" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
       </div>
-
-      <!-- MENU START -->
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 BusBroadcaster</div>
-            <div class="desc">A gritty, lo-fi UHF-themed stealth + resource-management ...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/BusBroadcaster/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/BusBroadcaster" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
+      <div class="bubble muted" data-name="KraemerverseWiki">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 KraemerverseWiki</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/KraemerverseWiki/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/KraemerverseWiki" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
         </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 KraemerverseWiki</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/KraemerverseWiki/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/KraemerverseWiki" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 openclaw-OTV-newsroom</div>
-            <div class="desc"><a href="https://t.me/genaispot"><img src="assets/gen-ai-...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/openclaw-OTV-newsroom/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/openclaw-OTV-newsroom" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Raspberry pi 2 b - Commodore 1701 screen</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Raspberry pi 2 b - Commodore 1701 screen/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Raspberry pi 2 b - Commodore 1701 screen" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Bubalina</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Bubalina/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Bubalina" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 MooFO</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/MooFO/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/MooFO" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 mobius farm</div>
-            <div class="desc">An ASCII-based farming & tower-defense hybrid game runnin...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/mobius farm/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/mobius farm" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 TornadoCones</div>
-            <div class="desc">Back to the BIG0TIME index: https://github.com/polerix/BI...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/TornadoCones/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/TornadoCones" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Cosmo</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Cosmo/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Cosmo" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 HackersTeam</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/HackersTeam/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/HackersTeam" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Colonbo</div>
-            <div class="desc">A web-based 3D colonoscopy training application designed ...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Colonbo/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Colonbo" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 PayloadEmulatorLoop</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/PayloadEmulatorLoop/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/PayloadEmulatorLoop" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 LeapFrogs</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/LeapFrogs/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/LeapFrogs" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 C64-OS</div>
-            <div class="desc">COPYRIGHT (C) 2026 BY POLERIX DIGITAL SYSTEMS**</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/C64-OS/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/C64-OS" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Last dance in Dry Gulcg</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Last dance in Dry Gulcg/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Last dance in Dry Gulcg" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 MOOf Patrol</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/MOOf Patrol/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/MOOf Patrol" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 AetherStones — Council of Green Point</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/AetherStones — Council of Green Point/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/AetherStones — Council of Green Point" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Labyrinth Explorer (1)</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Labyrinth Explorer (1)/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Labyrinth Explorer (1)" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 SwarmSystemLab</div>
-            <div class="desc">Swarm System Lab Simulator — autonomous hive warfare sand...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/SwarmSystemLab/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/SwarmSystemLab" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 Tubbers</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Tubbers/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Tubbers" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 AlienHive</div>
-            <div class="desc">You are a Xeno, a predatory creature driven by a single i...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/AlienHive/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/AlienHive" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 SecurityAdventure</div>
-            <div class="desc">choose your own adventure processor</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/SecurityAdventure/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/SecurityAdventure" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 burger time</div>
-            <div class="desc">GrecoTime classic game developed with AI</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/burger time/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/burger time" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 Voigt-Kampff_Empathy-Test</div>
-            <div class="desc">It is my interpretation of the terminal interface used to...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Voigt-Kampff_Empathy-Test/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Voigt-Kampff_Empathy-Test" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 OTV</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/OTV/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/OTV" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 motion-tracker</div>
-            <div class="desc">When playing role-playing games, such as mothership, the ...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/motion-tracker/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/motion-tracker" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 CosmicBrawler</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/CosmicBrawler/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/CosmicBrawler" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 xenohivegauntlet</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/xenohivegauntlet/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/xenohivegauntlet" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 BPM-Vending Pigs</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/BPM-Vending Pigs/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/BPM-Vending Pigs" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 GrecoTime</div>
-            <div class="desc">GrecoTime classic game developed with AI</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/GrecoTime/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/GrecoTime" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 MooVers</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/MooVers/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/MooVers" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 KungFu</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/KungFu/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/KungFu" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 GibsonCyberspace</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/GibsonCyberspace/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/GibsonCyberspace" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 soul-forge</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/soul-forge/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/soul-forge" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 LEDpanel</div>
-            <div class="desc">A browser-based, interactive 16\u00d796 LED pattern edito...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/LEDpanel/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/LEDpanel" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 glitcher-app</div>
-            <div class="desc"><div></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/glitcher-app/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/glitcher-app" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 ascii-lab</div>
-            <div class="desc"><h1></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/ascii-lab/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/ascii-lab" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 defrag</div>
-            <div class="desc">This template should help get you started developing with...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/defrag/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/defrag" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 blinkwell observer</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/blinkwell observer/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/blinkwell observer" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">🔥 sandrineportfolio</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/sandrineportfolio/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/sandrineportfolio" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">🔥 headroom</div>
-            <div class="desc">An interactive 3D wireframe and textured lip-sync experim...</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/headroom/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/headroom" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">OBS Projects</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/OBS Projects/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/OBS Projects" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">maudlin-modellers</div>
-            <div class="desc">Maudlin Modellers stuff</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/maudlin-modellers/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/maudlin-modellers" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name muted">Raspberry pi Fallout</div>
-            <div class="desc"></div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/Raspberry pi Fallout/under-construction.html" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/Raspberry pi Fallout" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">
-            <div class="name">satans_spreadsheet</div>
-            <div class="desc">Welcome to the abyss of data entry.**</div>
-          </div>
-          <div class="actions">
-            <a href="https://polerix.github.io/satans_spreadsheet/" target="_blank" rel="noopener noreferrer"><button type="button">OPEN</button></a>
-            <a href="https://github.com/polerix/satans_spreadsheet" target="_blank" rel="noopener noreferrer"><button type="button">REPO</button></a>
-          </div>
-        </div>
-<!-- MENU END -->
-
-      <div class="footer">
-        <div>BIG0TIME / INDEX</div>
-        <a class="glyph" href="otv-main.html" title="If you know, you know">Θ</a>
       </div>
-    </section>
-  </main>
+      <div class="bubble muted" data-name="openclaw-OTV-newsroom">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 openclaw-OTV-newsroom</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/openclaw-OTV-newsroom/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/openclaw-OTV-newsroom" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Raspberry pi 2 b - Commodore 1701 screen">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Raspberry pi 2 b - Commodore 1701 screen</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Raspberry pi 2 b - Commodore 1701 screen/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Raspberry pi 2 b - Commodore 1701 screen" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Bubalina">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Bubalina</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Bubalina/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Bubalina" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="MooFO">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 MooFO</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/MooFO/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/MooFO" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="mobius farm">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 mobius farm</div>
+        <div class="desc">An ASCII-based farming & tower-defense hybrid game runnin...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/mobius farm/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/mobius farm" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="TornadoCones">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 TornadoCones</div>
+        <div class="desc">Back to the BIG0TIME index: https://github.com/polerix/BI...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/TornadoCones/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/TornadoCones" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Cosmo">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Cosmo</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Cosmo/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Cosmo" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="HackersTeam">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 HackersTeam</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/HackersTeam/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/HackersTeam" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Colonbo">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Colonbo</div>
+        <div class="desc">A web-based 3D colonoscopy training application designed ...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Colonbo/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Colonbo" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="PayloadEmulatorLoop">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 PayloadEmulatorLoop</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/PayloadEmulatorLoop/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/PayloadEmulatorLoop" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="LeapFrogs">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 LeapFrogs</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/LeapFrogs/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/LeapFrogs" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="C64-OS">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 C64-OS</div>
+        <div class="desc">COPYRIGHT (C) 2026 BY POLERIX DIGITAL SYSTEMS**</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/C64-OS/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/C64-OS" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Last dance in Dry Gulcg">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Last dance in Dry Gulcg</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Last dance in Dry Gulcg/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Last dance in Dry Gulcg" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="MOOf Patrol">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 MOOf Patrol</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/MOOf Patrol/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/MOOf Patrol" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="AetherStones — Council of Green Point">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 AetherStones — Council of Green Point</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/AetherStones — Council of Green Point/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/AetherStones — Council of Green Point" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Labyrinth Explorer (1)">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Labyrinth Explorer (1)</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Labyrinth Explorer (1)/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Labyrinth Explorer (1)" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="SwarmSystemLab">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 SwarmSystemLab</div>
+        <div class="desc">Swarm System Lab Simulator — autonomous hive warfare sand...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/SwarmSystemLab/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/SwarmSystemLab" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="Tubbers">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Tubbers</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Tubbers/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Tubbers" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="AlienHive">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 AlienHive</div>
+        <div class="desc">You are a Xeno, a predatory creature driven by a single i...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/AlienHive/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/AlienHive" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="SecurityAdventure">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 SecurityAdventure</div>
+        <div class="desc">choose your own adventure processor</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/SecurityAdventure/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/SecurityAdventure" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="burger time">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 burger time</div>
+        <div class="desc">GrecoTime classic game developed with AI</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/burger time/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/burger time" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Voigt-Kampff_Empathy-Test">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 Voigt-Kampff_Empathy-Test</div>
+        <div class="desc">It is my interpretation of the terminal interface used to...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Voigt-Kampff_Empathy-Test/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Voigt-Kampff_Empathy-Test" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="OTV">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 OTV</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/OTV/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/OTV" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="motion-tracker">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 motion-tracker</div>
+        <div class="desc">When playing role-playing games, such as mothership, the ...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/motion-tracker/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/motion-tracker" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="CosmicBrawler">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 CosmicBrawler</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/CosmicBrawler/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/CosmicBrawler" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="xenohivegauntlet">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 xenohivegauntlet</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/xenohivegauntlet/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/xenohivegauntlet" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="BPM-Vending Pigs">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 BPM-Vending Pigs</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/BPM-Vending Pigs/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/BPM-Vending Pigs" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="GrecoTime">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 GrecoTime</div>
+        <div class="desc">GrecoTime classic game developed with AI</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/GrecoTime/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/GrecoTime" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="MooVers">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 MooVers</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/MooVers/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/MooVers" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="KungFu">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 KungFu</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/KungFu/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/KungFu" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="GibsonCyberspace">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 GibsonCyberspace</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/GibsonCyberspace/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/GibsonCyberspace" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="soul-forge">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 soul-forge</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/soul-forge/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/soul-forge" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="LEDpanel">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 LEDpanel</div>
+        <div class="desc">A browser-based, interactive 16\u00d796 LED pattern edito...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/LEDpanel/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/LEDpanel" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="glitcher-app">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 glitcher-app</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/glitcher-app/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/glitcher-app" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="ascii-lab">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 ascii-lab</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/ascii-lab/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/ascii-lab" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="defrag">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 defrag</div>
+        <div class="desc">This template should help get you started developing with...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/defrag/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/defrag" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="blinkwell observer">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 blinkwell observer</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/blinkwell observer/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/blinkwell observer" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="sandrineportfolio">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 sandrineportfolio</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/sandrineportfolio/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/sandrineportfolio" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="headroom">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">🔥 headroom</div>
+        <div class="desc">An interactive 3D wireframe and textured lip-sync experim...</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/headroom/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/headroom" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="OBS Projects">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">OBS Projects</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/OBS Projects/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/OBS Projects" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="maudlin-modellers">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">maudlin-modellers</div>
+        <div class="desc">Maudlin Modellers stuff</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/maudlin-modellers/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/maudlin-modellers" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble muted" data-name="Raspberry pi Fallout">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">Raspberry pi Fallout</div>
+        <div class="desc"></div>
+        <div class="actions">
+          <a href="https://polerix.github.io/Raspberry pi Fallout/under-construction.html" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/Raspberry pi Fallout" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+      <div class="bubble" data-name="satans_spreadsheet">
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">satans_spreadsheet</div>
+        <div class="desc">Welcome to the abyss of data entry.**</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/satans_spreadsheet/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/satans_spreadsheet" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+    </div>
+    <!-- MENU END -->
+
+    <div class="footer">
+      <a href="otv-main.html">BIG0TIME / INDEX</a>
+    </div>
+  </div>
+
+  <script>
+    const mouseLight = document.getElementById('mouse-light');
+    const bubbles = document.querySelectorAll('.bubble');
+    const lightSpots = document.querySelectorAll('.bubble .light-spot');
+
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+      mouseLight.style.left = e.clientX + 'px';
+      mouseLight.style.top = e.clientY + 'px';
+
+      // Update light spot on each bubble
+      bubbles.forEach(bubble => {
+        const rect = bubble.getBoundingClientRect();
+        const lightSpot = bubble.querySelector('.light-spot');
+
+        // Calculate distance from mouse to bubble center
+        const bubbleCenterX = rect.left + rect.width / 2;
+        const bubbleCenterY = rect.top + rect.height / 2;
+        const dist = Math.hypot(e.clientX - bubbleCenterX, e.clientY - bubbleCenterY);
+
+        // Position the light spot relative to mouse
+        const spotX = e.clientX - rect.left;
+        const spotY = e.clientY - rect.top;
+
+        lightSpot.style.left = spotX + 'px';
+        lightSpot.style.top = spotY + 'px';
+
+        // Add/remove near class based on distance
+        if (dist < 200) {
+          bubble.classList.add('near');
+        } else {
+          bubble.classList.remove('near');
+        }
+      });
+    });
+
+    // Hide light when mouse leaves window
+    document.addEventListener('mouseleave', () => {
+      mouseLight.style.opacity = '0';
+      bubbles.forEach(bubble => bubble.classList.remove('near'));
+    });
+
+    document.addEventListener('mouseenter', () => {
+      mouseLight.style.opacity = '1';
+    });
+  </script>
 </body>
 
 </html>
