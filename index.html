@@ -102,6 +102,75 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
+      margin-top: 40px;
+    }
+
+    /* Pinned/Featured Section */
+    .pinned {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .pinned .bubble {
+      min-height: 280px;
+    }
+
+    /* Liquid Glass Preview Window */
+    .preview-window {
+      width: 100%;
+      height: 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      position: relative;
+      background: #0b0f19;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .preview-window iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.5);
+      transform-origin: top left;
+      width: 200%;
+      height: 200%;
+      pointer-events: none;
+    }
+
+    /* Liquid glass distortion effect */
+    .preview-window::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%),
+        linear-gradient(225deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Glass reflection on preview */
+    .preview-window::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 3;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .bubble:hover .preview-window {
+      border-color: rgba(120, 170, 255, 0.3);
     }
 
     .bubble {
@@ -269,6 +338,18 @@
         grid-template-columns: 1fr;
       }
 
+      .pinned {
+        grid-template-columns: 1fr;
+      }
+
+      .pinned .bubble {
+        grid-column: span 1;
+      }
+
+      .preview-window {
+        height: 120px;
+      }
+
       header h1 {
         font-size: 20px;
         letter-spacing: 4px;
@@ -287,6 +368,24 @@
     </header>
 
     <!-- MENU START -->
+
+    <!-- Pinned/Featured Section -->
+    <div class="pinned">
+      <div class="bubble" data-name="SecurityAdventure" style="grid-column: span 2;">
+        <div class="preview-window">
+          <iframe src="https://polerix.github.io/SecurityAdventure/" title="SecurityAdventure Preview"></iframe>
+        </div>
+        <div class="inner-glow"></div>
+        <div class="light-spot"></div>
+        <div class="name">Featured: SecurityAdventure</div>
+        <div class="desc">choose your own adventure processor — An interactive system for building decision trees and processing workflows</div>
+        <div class="actions">
+          <a href="https://polerix.github.io/SecurityAdventure/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
+          <a href="https://github.com/polerix/SecurityAdventure" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
+        </div>
+      </div>
+    </div>
+
     <div class="grid">
       <div class="bubble" data-name="BusBroadcaster">
         <div class="inner-glow"></div>
@@ -496,16 +595,6 @@
         <div class="actions">
           <a href="https://polerix.github.io/AlienHive/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
           <a href="https://github.com/polerix/AlienHive" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
-        </div>
-      </div>
-      <div class="bubble" data-name="SecurityAdventure">
-        <div class="inner-glow"></div>
-        <div class="light-spot"></div>
-        <div class="name">🔥 SecurityAdventure</div>
-        <div class="desc">choose your own adventure processor</div>
-        <div class="actions">
-          <a href="https://polerix.github.io/SecurityAdventure/" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
-          <a href="https://github.com/polerix/SecurityAdventure" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
         </div>
       </div>
       <div class="bubble" data-name="burger time">
