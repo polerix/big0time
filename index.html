@@ -50,24 +50,6 @@
       z-index: 0;
     }
 
-    /* Mouse light cursor (invisible but affects bubbles) */
-    #mouse-light {
-      position: fixed;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200, 220, 255, 0.15) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 1000;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    body:hover #mouse-light {
-      opacity: 1;
-    }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -105,6 +87,19 @@
       margin-top: 40px;
     }
 
+    .grid-title {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      margin-top: 30px;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 10px;
+    }
+
     /* Pinned/Featured Section */
     .pinned {
       display: grid;
@@ -115,62 +110,6 @@
 
     .pinned .bubble {
       min-height: 280px;
-    }
-
-    /* Liquid Glass Preview Window */
-    .preview-window {
-      width: 100%;
-      height: 160px;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 14px;
-      position: relative;
-      background: #0b0f19;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .preview-window iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      transform: scale(0.5);
-      transform-origin: top left;
-      width: 200%;
-      height: 200%;
-      pointer-events: none;
-    }
-
-    /* Liquid glass distortion effect */
-    .preview-window::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%),
-        linear-gradient(225deg, rgba(255,255,255,0.05) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    /* Glass reflection on preview */
-    .preview-window::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
-      pointer-events: none;
-      z-index: 3;
-      border-radius: 12px 12px 0 0;
-    }
-
-    .bubble:hover .preview-window {
-      border-color: rgba(120, 170, 255, 0.3);
     }
 
     .bubble {
@@ -194,6 +133,7 @@
       right: 0;
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      z-index: 1; /* Ensure highlights are above the background */
     }
 
     /* Glass edge highlight (bottom-right) */
@@ -205,9 +145,10 @@
       width: 1px;
       height: 60%;
       background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      z-index: 1; /* Ensure highlights are above the background */
     }
 
-    /* Inner glow base */
+    /* Inner glow base - now a general effect */
     .bubble .inner-glow {
       position: absolute;
       top: 10%;
@@ -217,31 +158,20 @@
       border-radius: 12px;
       background: radial-gradient(ellipse at 30% 30%, var(--glass-highlight) 0%, transparent 60%);
       pointer-events: none;
+      z-index: 1; /* Ensure glow is above background */
     }
 
     .bubble:hover {
       transform: translateY(-4px);
       border-color: rgba(120, 170, 255, 0.3);
-      box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Removed inset */
     }
 
-    /* Mouse proximity light effect */
-    .bubble .light-spot {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200, 220, 255, 0.2) 0%, transparent 70%);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 0.15s;
-    }
-
-    .bubble.near .light-spot {
-      opacity: 1;
+    .bubble .name,
+    .bubble .desc,
+    .bubble .actions {
+        position: relative;
+        z-index: 2; /* Ensure content is above the blurred background */
     }
 
     .bubble .name {
@@ -250,8 +180,6 @@
       letter-spacing: 0.5px;
       color: var(--text);
       margin-bottom: 6px;
-      position: relative;
-      z-index: 2;
     }
 
     .bubble .name .fire {
@@ -266,8 +194,6 @@
       font-size: 11px;
       color: var(--text-dim);
       line-height: 1.4;
-      position: relative;
-      z-index: 2;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -284,8 +210,6 @@
       display: flex;
       gap: 8px;
       margin-top: 14px;
-      position: relative;
-      z-index: 2;
     }
 
     .bubble a {
@@ -356,19 +280,6 @@
       }
     }
 
-    .grid-title {
-      grid-column: 1 / -1;
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 10px;
-      margin-top: 30px;
-      border-bottom: 1px solid var(--glass-border);
-      padding-bottom: 10px;
-    }
-
     .bubble.pinned {
       background-image: var(--bg-image);
       background-size: 110%;
@@ -405,8 +316,6 @@
 </head>
 
 <body>
-  <div id="mouse-light"></div>
-
   <div class="container">
     <header>
       <h1>BIG0TIME</h1>
@@ -903,52 +812,7 @@
     </div>
   </div>
 
-  <script>
-    const mouseLight = document.getElementById('mouse-light');
-    const bubbles = document.querySelectorAll('.bubble');
-    const lightSpots = document.querySelectorAll('.bubble .light-spot');
 
-    // Track mouse position
-    document.addEventListener('mousemove', (e) => {
-      mouseLight.style.left = e.clientX + 'px';
-      mouseLight.style.top = e.clientY + 'px';
-
-      // Update light spot on each bubble
-      bubbles.forEach(bubble => {
-        const rect = bubble.getBoundingClientRect();
-        const lightSpot = bubble.querySelector('.light-spot');
-
-        // Calculate distance from mouse to bubble center
-        const bubbleCenterX = rect.left + rect.width / 2;
-        const bubbleCenterY = rect.top + rect.height / 2;
-        const dist = Math.hypot(e.clientX - bubbleCenterX, e.clientY - bubbleCenterY);
-
-        // Position the light spot relative to mouse
-        const spotX = e.clientX - rect.left;
-        const spotY = e.clientY - rect.top;
-
-        lightSpot.style.left = spotX + 'px';
-        lightSpot.style.top = spotY + 'px';
-
-        // Add/remove near class based on distance
-        if (dist < 200) {
-          bubble.classList.add('near');
-        } else {
-          bubble.classList.remove('near');
-        }
-      });
-    });
-
-    // Hide light when mouse leaves window
-    document.addEventListener('mouseleave', () => {
-      mouseLight.style.opacity = '0';
-      bubbles.forEach(bubble => bubble.classList.remove('near'));
-    });
-
-    document.addEventListener('mouseenter', () => {
-      mouseLight.style.opacity = '1';
-    });
-  </script>
 </body>
 
 </html>
