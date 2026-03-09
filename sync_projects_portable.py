@@ -237,7 +237,7 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
         screenshot_path = SCREENSHOT_DIR / f"{project_name}.png"
         capture_screenshot(open_url, screenshot_path)
         if screenshot_path.exists():
-            style = f'style="background-image: url(resources/screenshots/{project_name}.png);"'
+            style = f'style="--bg-image: url(resources/screenshots/{project_name}.png);"'
 
 
     # Generate the HTML (bubble style)
