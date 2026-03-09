@@ -33,7 +33,15 @@ PINNED_PROJECTS = [
     "KraemerverseWiki",
     "TornadoCones",
     "satans_spreadsheet",
+    "HackersTeam",
+    "sandrineportfolio",
 ]
+
+# Custom URLs for specific projects
+CUSTOM_URLS = {
+    "HackersTeam": "https://polerix.github.io/HackersTeam/frontend/",
+    "sandrineportfolio": "https://polerix.github.io/sandrineportfolio/",
+}
 
 # Landing page patterns to check (in order of preference)
 LANDING_PAGES = [
@@ -114,6 +122,9 @@ def get_github_url(project_name: str) -> str:
 
 def get_deployed_url(project_name: str) -> str | None:
     """Generate GitHub Pages URL if deployed, None otherwise"""
+    if project_name in CUSTOM_URLS:
+        return CUSTOM_URLS[project_name]
+
     # Common patterns for GitHub Pages
     base_url = f"https://polerix.github.io/{project_name}"
 
@@ -176,6 +187,8 @@ def is_recently_modified(project_dir: Path) -> bool:
 
 def has_landing_page(project_dir: Path) -> bool:
     """Check if project has a landing page"""
+    if project_dir.name in CUSTOM_URLS:
+        return True
     for landing in LANDING_PAGES:
         if (project_dir / landing).exists():
             return True
