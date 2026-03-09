@@ -16,6 +16,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from datetime import datetime, timedelta
+import argparse
 
 # Configuration
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -25,6 +26,7 @@ UNDER_CONSTRUCTION = BIG0TIME_DIR / "under-construction.html"
 INDEX_HTML = BIG0TIME_DIR / "index.html"
 SCREENSHOT_DIR = BIG0TIME_DIR / "resources" / "screenshots"
 RECENT_DAYS = 7  # Projects modified within this many days get fire icon
+SCREENSHOT_EXPIRY_SECONDS = 24 * 60 * 60  # Screenshots expire after 24 hours
 
 # Pinned projects
 PINNED_PROJECTS = [
@@ -53,10 +55,18 @@ LANDING_PAGES = [
 ]
 
 
-def capture_screenshot(url: str, output_path: Path):
-    """Capture a website screenshot using headless Chrome"""
+def capture_screenshot(url: str, output_path: Path, force: bool = False):
+    """Capture a website screenshot using headless Chrome, with expiry and force options"""
     if not url:
         return
+
+    if output_path.exists() and not force:
+        # Check if screenshot is expired
+        modified_time = datetime.fromtimestamp(output_path.stat().st_mtime)
+        if (datetime.now() - modified_time).total_seconds() < SCREENSHOT_EXPIRY_SECONDS:
+            print(f"    Skipping screenshot for {url} (fresh enough).")
+            return
+
     print(f"    Capturing screenshot of {url}...")
     try:
         chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -72,12 +82,12 @@ def capture_screenshot(url: str, output_path: Path):
                 "--window-size=1280,800",
                 url,
             ],
-            timeout=60,
+            timeout=120,
             capture_output=True,
         )
         print(f"    Screenshot saved to {output_path}")
     except Exception as e:
-        print(f"    Failed to capture screenshot: {e}")
+        print(f"    Failed to capture screenshot for {url}: {e}")
 
 
 def get_project_description(project_dir: Path) -> str:
@@ -201,13 +211,14 @@ def copy_under_construction(project_name: str) -> str:
     dest = project_dir / "under-construction.html"
 
     if not dest.exists():
+        os.makedirs(project_dir, exist_ok=True) # Ensure the project directory exists
         shutil.copy2(UNDER_CONSTRUCTION, dest)
         print(f"  Copied under-construction.html to {project_name}")
 
     return "under-construction.html"
 
 
-def generate_project_html(project_name: str, project_dir: Path, pinned: bool = False) -> str:
+def generate_project_html(project_name: str, project_dir: Path, pinned: bool = False, force_screenshot: bool = False) -> str:
     """Generate HTML for a single project entry"""
 
     has_landing = has_landing_page(project_dir)
@@ -235,7 +246,7 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
     style = ""
     if pinned:
         screenshot_path = SCREENSHOT_DIR / f"{project_name}.png"
-        capture_screenshot(open_url, screenshot_path)
+        capture_screenshot(open_url, screenshot_path, force=force_screenshot)
         if screenshot_path.exists():
             style = f'style="--bg-image: url(resources/screenshots/{project_name}.png);"'
 
@@ -246,11 +257,10 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
     pinned_class = " pinned" if pinned else ""
 
     html = f'''      <div class="bubble{muted_class}{pinned_class}" data-name="{project_name}" {style}>
-        <div class="inner-glow"></div>
-        <div class="light-spot"></div>
-        <div class="name">{fire_icon}{project_name}</div>
-        <div class="desc">{description}</div>
-        <div class="actions">
+        <div class="inner-glow" style="z-index: 1;"></div>
+        <div class="name" style="z-index: 2;">{fire_icon}{project_name}</div>
+        <div class="desc" style="z-index: 2;">{description}</div>
+        <div class="actions" style="z-index: 2;">
           <a href="{open_url}" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
           <a href="{github_url}" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
         </div>
@@ -289,7 +299,7 @@ def get_all_projects() -> tuple[list[tuple[Path, datetime]], list[tuple[Path, da
     return pinned_projects, other_projects
 
 
-def update_index_html():
+def update_index_html(force_screenshot: bool = False):
     """Update the index.html with current project list"""
     print("Scanning projects...")
     pinned_projects, other_projects = get_all_projects()
@@ -303,7 +313,7 @@ def update_index_html():
         for project_dir, mod_date in pinned_projects:
             project_name = project_dir.name
             print(f"  (Pinned) {project_name}: {mod_date.strftime('%Y-%m-%d')}", end="")
-            html = generate_project_html(project_name, project_dir, pinned=True)
+            html = generate_project_html(project_name, project_dir, pinned=True, force_screenshot=force_screenshot)
             project_entries.append(html)
             print()
     if other_projects:
@@ -318,7 +328,7 @@ def update_index_html():
             if is_recent:
                 print(" [recent]", end="")
             print()
-            html = generate_project_html(project_name, project_dir)
+            html = generate_project_html(project_name, project_dir, force_screenshot=force_screenshot)
             project_entries.append(html)
     # Read the template
     template = INDEX_HTML.read_text(encoding='utf-8')
@@ -345,6 +355,10 @@ def update_index_html():
 
 def main():
     """Main entry point"""
+    parser = argparse.ArgumentParser(description="Big0Time Project Sync Script")
+    parser.add_argument("--force-screenshot", action="store_true", help="Force new screenshots to be captured, even if recent.")
+    args = parser.parse_args()
+
     print("=" * 50)
     print("Big0Time Project Sync")
     print("=" * 50)
@@ -362,7 +376,7 @@ def main():
         print(f"ERROR: under-construction.html not found: {UNDER_CONSTRUCTION}")
         return
 
-    update_index_html()
+    update_index_html(force_screenshot=args.force_screenshot)
 
     print("\nSync complete!")
 
