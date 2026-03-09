@@ -3,10 +3,12 @@
 Big0Time Project Sync Script
 
 Scans the GitHub projects directory and updates the BIG0TIME index.html with:
+- Pinned projects at the top
 - Projects sorted by modification date (newest first)
 - Grayed out text for projects without landing pages
 - Fire icon (🔥) for recently active projects (modified in last 7 days)
 - Copies under-construction.html to projects without landing pages
+- Captures screenshots for pinned projects and uses them as blurred backgrounds
 """
 
 import os
@@ -21,7 +23,17 @@ BIG0TIME_DIR = SCRIPT_DIR
 GITHUB_DIR = BIG0TIME_DIR.parent
 UNDER_CONSTRUCTION = BIG0TIME_DIR / "under-construction.html"
 INDEX_HTML = BIG0TIME_DIR / "index.html"
+SCREENSHOT_DIR = BIG0TIME_DIR / "resources" / "screenshots"
 RECENT_DAYS = 7  # Projects modified within this many days get fire icon
+
+# Pinned projects
+PINNED_PROJECTS = [
+    "SecurityAdventure",
+    "VAX_Console_Sim",
+    "KraemerverseWiki",
+    "TornadoCones",
+    "satans_spreadsheet",
+]
 
 # Landing page patterns to check (in order of preference)
 LANDING_PAGES = [
@@ -31,6 +43,33 @@ LANDING_PAGES = [
     "main.html",
     "app.html",
 ]
+
+
+def capture_screenshot(url: str, output_path: Path):
+    """Capture a website screenshot using headless Chrome"""
+    if not url:
+        return
+    print(f"    Capturing screenshot of {url}...")
+    try:
+        chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+        if not Path(chrome_path).exists():
+            print("    Google Chrome not found, skipping screenshot.")
+            return
+
+        subprocess.run(
+            [
+                chrome_path,
+                "--headless",
+                f"--screenshot={output_path}",
+                "--window-size=1280,800",
+                url,
+            ],
+            timeout=60,
+            capture_output=True,
+        )
+        print(f"    Screenshot saved to {output_path}")
+    except Exception as e:
+        print(f"    Failed to capture screenshot: {e}")
 
 
 def get_project_description(project_dir: Path) -> str:
@@ -155,7 +194,7 @@ def copy_under_construction(project_name: str) -> str:
     return "under-construction.html"
 
 
-def generate_project_html(project_name: str, project_dir: Path) -> str:
+def generate_project_html(project_name: str, project_dir: Path, pinned: bool = False) -> str:
     """Generate HTML for a single project entry"""
 
     has_landing = has_landing_page(project_dir)
@@ -179,12 +218,21 @@ def generate_project_html(project_name: str, project_dir: Path) -> str:
         open_url = f"https://polerix.github.io/{project_name}/under-construction.html"
 
     github_url = get_github_url(project_name)
+    
+    style = ""
+    if pinned:
+        screenshot_path = SCREENSHOT_DIR / f"{project_name}.png"
+        capture_screenshot(open_url, screenshot_path)
+        if screenshot_path.exists():
+            style = f'style="background-image: url(resources/screenshots/{project_name}.png);"'
+
 
     # Generate the HTML (bubble style)
     fire_icon = "🔥 " if is_recent else ""
     muted_class = " muted" if not has_landing else ""
+    pinned_class = " pinned" if pinned else ""
 
-    html = f'''      <div class="bubble{muted_class}" data-name="{project_name}">
+    html = f'''      <div class="bubble{muted_class}{pinned_class}" data-name="{project_name}" {style}>
         <div class="inner-glow"></div>
         <div class="light-spot"></div>
         <div class="name">{fire_icon}{project_name}</div>
@@ -198,70 +246,77 @@ def generate_project_html(project_name: str, project_dir: Path) -> str:
     return html
 
 
-def get_all_projects() -> list[tuple[Path, datetime]]:
-    """Get all project directories sorted by modification date"""
-    projects = []
+def get_all_projects() -> tuple[list[tuple[Path, datetime]], list[tuple[Path, datetime]]]:
+    """Get all project directories, separating pinned projects"""
+    pinned_projects = []
+    other_projects = []
 
     for item in GITHUB_DIR.iterdir():
         if not item.is_dir():
             continue
         # Skip hidden directories and special dirs
-        if item.name.startswith('.') or item.name.startswith('clawd'):
+        if item.name.startswith('.') or item.name.startswith('clawd') or item.name == 'BIG0TIME_broken':
             continue
         # Skip BIG0TIME itself
         if item.name == "BIG0TIME":
             continue
 
         mod_date = get_project_modification_date(item)
-        projects.append((item, mod_date))
+        if item.name in PINNED_PROJECTS:
+            pinned_projects.append((item, mod_date))
+        else:
+            other_projects.append((item, mod_date))
 
-    # Sort by modification date (newest first)
-    projects.sort(key=lambda x: x[1], reverse=True)
+    # Sort other projects by modification date (newest first)
+    other_projects.sort(key=lambda x: x[1], reverse=True)
+    
+    # Sort pinned projects by the order in PINNED_PROJECTS
+    pinned_projects.sort(key=lambda x: PINNED_PROJECTS.index(x[0].name))
 
-    return projects
+    return pinned_projects, other_projects
 
 
 def update_index_html():
     """Update the index.html with current project list"""
-
     print("Scanning projects...")
-    projects = get_all_projects()
-
-    print(f"Found {len(projects)} projects")
-
+    pinned_projects, other_projects = get_all_projects()
+    print(f"Found {len(pinned_projects)} pinned projects and {len(other_projects)} other projects.")
+    # Create screenshot directory if it doesn't exist
+    SCREENSHOT_DIR.mkdir(parents=True, exist_ok=True)
     # Generate project HTML entries
     project_entries = []
-    for project_dir, mod_date in projects:
-        project_name = project_dir.name
-        print(f"  {project_name}: {mod_date.strftime('%Y-%m-%d')}", end="")
-
-        has_landing = has_landing_page(project_dir)
-        is_recent = is_recently_modified(project_dir)
-
-        if not has_landing:
-            print(" [no landing]", end="")
-        if is_recent:
-            print(" [recent]", end="")
-
-        print()
-
-        html = generate_project_html(project_name, project_dir)
-        project_entries.append(html)
-
+    if pinned_projects:
+        project_entries.append('      <h2 class="grid-title">Pinned Projects</h2>')
+        for project_dir, mod_date in pinned_projects:
+            project_name = project_dir.name
+            print(f"  (Pinned) {project_name}: {mod_date.strftime('%Y-%m-%d')}", end="")
+            html = generate_project_html(project_name, project_dir, pinned=True)
+            project_entries.append(html)
+            print()
+    if other_projects:
+        project_entries.append('      <h2 class="grid-title">All Projects</h2>')
+        for project_dir, mod_date in other_projects:
+            project_name = project_dir.name
+            print(f"  {project_name}: {mod_date.strftime('%Y-%m-%d')}", end="")
+            has_landing = has_landing_page(project_dir)
+            is_recent = is_recently_modified(project_dir)
+            if not has_landing:
+                print(" [no landing]", end="")
+            if is_recent:
+                print(" [recent]", end="")
+            print()
+            html = generate_project_html(project_name, project_dir)
+            project_entries.append(html)
     # Read the template
     template = INDEX_HTML.read_text(encoding='utf-8')
-
     # Find the menu start and end markers
     menu_start = '<!-- MENU START -->'
     menu_end = '<!-- MENU END -->'
-
     start_idx = template.find(menu_start)
     end_idx = template.find(menu_end)
-
     if start_idx == -1 or end_idx == -1:
         print("ERROR: Could not find menu markers in index.html")
         return
-
     # Build new template (bubble grid style)
     new_template = (
         template[:start_idx + len(menu_start)] +
@@ -270,10 +325,8 @@ def update_index_html():
         '\n    </div>' +
         template[end_idx:]
     )
-
     # Update the index
     INDEX_HTML.write_text(new_template, encoding='utf-8')
-
     print(f"\nUpdated {INDEX_HTML}")
 
 
