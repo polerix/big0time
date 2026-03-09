@@ -10,7 +10,6 @@
       --bg: #050508;
       --glass: rgba(20, 25, 35, 0.6);
       --glass-border: rgba(120, 140, 180, 0.15);
-      --glass-highlight: rgba(180, 200, 255, 0.08);
       --text: #c8d4f0;
       --text-dim: rgba(200, 212, 240, 0.5);
       --accent: #7af;
@@ -55,6 +54,7 @@
       margin: 0 auto;
       position: relative;
       z-index: 1;
+      perspective: 1000px; 
     }
 
     header {
@@ -79,7 +79,6 @@
       text-transform: uppercase;
     }
 
-    /* Grid of glass bubbles */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -100,18 +99,6 @@
       padding-bottom: 10px;
     }
 
-    /* Pinned/Featured Section */
-    .pinned {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .pinned .bubble {
-      min-height: 280px;
-    }
-
     .bubble {
       background: var(--glass);
       border: 1px solid var(--glass-border);
@@ -121,57 +108,19 @@
       position: relative;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      backdrop-filter: blur(10px);
-    }
-
-    /* Glass edge highlight (top-left) */
-    .bubble::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      z-index: 1; /* Ensure highlights are above the background */
-    }
-
-    /* Glass edge highlight (bottom-right) */
-    .bubble::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 1px;
-      height: 60%;
-      background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-      z-index: 1; /* Ensure highlights are above the background */
-    }
-
-    /* Inner glow base - now a general effect */
-    .bubble .inner-glow {
-      position: absolute;
-      top: 10%;
-      left: 10%;
-      width: 80%;
-      height: 80%;
-      border-radius: 12px;
-      background: radial-gradient(ellipse at 30% 30%, var(--glass-highlight) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 1; /* Ensure glow is above background */
     }
 
     .bubble:hover {
       transform: translateY(-4px);
       border-color: rgba(120, 170, 255, 0.3);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Removed inset */
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     }
-
+    
     .bubble .name,
     .bubble .desc,
     .bubble .actions {
         position: relative;
-        z-index: 2; /* Ensure content is above the blurred background */
+        z-index: 2;
     }
 
     .bubble .name {
@@ -181,11 +130,7 @@
       color: var(--text);
       margin-bottom: 6px;
     }
-
-    .bubble .name .fire {
-      margin-right: 4px;
-    }
-
+    
     .bubble.muted .name {
       color: var(--text-dim);
     }
@@ -199,11 +144,6 @@
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-    }
-
-    .bubble .desc a {
-      color: var(--accent);
-      text-decoration: none;
     }
 
     .bubble .actions {
@@ -246,46 +186,15 @@
       font-size: 11px;
       letter-spacing: 2px;
     }
-
-    .footer a {
-      color: var(--text-dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer a:hover {
-      color: var(--text);
-    }
-
-    @media (max-width: 600px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pinned {
-        grid-template-columns: 1fr;
-      }
-
-      .pinned .bubble {
-        grid-column: span 1;
-      }
-
-      .preview-window {
-        height: 120px;
-      }
-
-      header h1 {
-        font-size: 20px;
-        letter-spacing: 4px;
-      }
-    }
-
+    
+    /* Pinned Project Styles */
     .bubble.pinned {
-      background-image: var(--bg-image);
-      background-size: 110%;
-      background-position: center;
-      position: relative;
-      transition: background-position 0.4s ease-out;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out, background 0.3s;
     }
 
     .bubble.pinned::before {
@@ -293,9 +202,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: inherit;
+      width: 100%;
+      height: 100%;
+      background-image: var(--bg-image);
       background-size: 110%;
       background-position: center;
       filter: blur(8px) brightness(0.7);
@@ -303,11 +212,7 @@
       border-radius: 16px;
       transition: filter 0.4s ease-out;
     }
-
-    .bubble.pinned:hover {
-      background-position: center 45%;
-    }
-
+    
     .bubble.pinned:hover::before {
       filter: blur(4px) brightness(0.9);
     }
@@ -745,8 +650,26 @@
       <a href="otv-main.html">BIG0TIME / INDEX</a>
     </div>
   </div>
+  <script>
+    const pinnedBubbles = document.querySelectorAll('.bubble.pinned');
 
+    pinnedBubbles.forEach(bubble => {
+      bubble.addEventListener('mousemove', (e) => {
+        const rect = bubble.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+        const rotateY = mouseX / 20;
+        const rotateX = -mouseY / 20;
 
+        bubble.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+      });
+
+      bubble.addEventListener('mouseleave', () => {
+        bubble.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      });
+    });
+  </script>
 </body>
-
 </html>
