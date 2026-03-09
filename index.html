@@ -370,9 +370,10 @@
     }
 
     .bubble.pinned {
-      background-size: cover;
+      background-size: 110%;
       background-position: center;
       position: relative;
+      transition: background-position 0.4s ease-out;
     }
 
     .bubble.pinned::before {
@@ -383,12 +384,22 @@
       right: 0;
       bottom: 0;
       background: inherit;
-      background-size: cover;
+      background-size: 110%;
       background-position: center;
-      filter: blur(8px);
+      filter: blur(8px) brightness(0.7);
       z-index: 0;
       border-radius: 16px;
+      transition: filter 0.4s ease-out;
     }
+
+    .bubble.pinned:hover {
+      background-position: center 45%;
+    }
+
+    .bubble.pinned:hover::before {
+      filter: blur(4px) brightness(0.9);
+    }
+
   </style>
 </head>
 
