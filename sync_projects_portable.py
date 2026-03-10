@@ -257,10 +257,9 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
     pinned_class = " pinned" if pinned else ""
 
     html = f'''      <div class="bubble{muted_class}{pinned_class}" data-name="{project_name}" {style}>
-        <div class="inner-glow" style="z-index: 1;"></div>
-        <div class="name" style="z-index: 2;">{fire_icon}{project_name}</div>
-        <div class="desc" style="z-index: 2;">{description}</div>
-        <div class="actions" style="z-index: 2;">
+        <div class="name">{fire_icon}{project_name}</div>
+        <div class="desc">{description}</div>
+        <div class="actions">
           <a href="{open_url}" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
           <a href="{github_url}" target="_blank" rel="noopener noreferrer"><button>Repo</button></a>
         </div>
