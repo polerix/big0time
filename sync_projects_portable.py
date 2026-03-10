@@ -3,10 +3,12 @@
 Big0Time Project Sync Script
 
 Scans the GitHub projects directory and updates the BIG0TIME index.html with:
+- Pinned projects at the top
 - Projects sorted by modification date (newest first)
 - Grayed out text for projects without landing pages
 - Fire icon (🔥) for recently active projects (modified in last 7 days)
 - Copies under-construction.html to projects without landing pages
+- Captures screenshots for pinned projects and uses them as blurred backgrounds
 """
 
 import os
@@ -14,6 +16,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from datetime import datetime, timedelta
+import argparse
 
 # Configuration
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -21,7 +24,26 @@ BIG0TIME_DIR = SCRIPT_DIR
 GITHUB_DIR = BIG0TIME_DIR.parent
 UNDER_CONSTRUCTION = BIG0TIME_DIR / "under-construction.html"
 INDEX_HTML = BIG0TIME_DIR / "index.html"
+SCREENSHOT_DIR = BIG0TIME_DIR / "resources" / "screenshots"
 RECENT_DAYS = 7  # Projects modified within this many days get fire icon
+SCREENSHOT_EXPIRY_SECONDS = 24 * 60 * 60  # Screenshots expire after 24 hours
+
+# Pinned projects
+PINNED_PROJECTS = [
+    "SecurityAdventure",
+    "VAX_Console_Sim",
+    "KraemerverseWiki",
+    "TornadoCones",
+    "satans_spreadsheet",
+    "HackersTeam",
+    "sandrineportfolio",
+]
+
+# Custom URLs for specific projects
+CUSTOM_URLS = {
+    "HackersTeam": "https://polerix.github.io/HackersTeam/frontend/",
+    "sandrineportfolio": "https://polerix.github.io/sandrineportfolio/",
+}
 
 # Landing page patterns to check (in order of preference)
 LANDING_PAGES = [
@@ -31,6 +53,41 @@ LANDING_PAGES = [
     "main.html",
     "app.html",
 ]
+
+
+def capture_screenshot(url: str, output_path: Path, force: bool = False):
+    """Capture a website screenshot using headless Chrome, with expiry and force options"""
+    if not url:
+        return
+
+    if output_path.exists() and not force:
+        # Check if screenshot is expired
+        modified_time = datetime.fromtimestamp(output_path.stat().st_mtime)
+        if (datetime.now() - modified_time).total_seconds() < SCREENSHOT_EXPIRY_SECONDS:
+            print(f"    Skipping screenshot for {url} (fresh enough).")
+            return
+
+    print(f"    Capturing screenshot of {url}...")
+    try:
+        chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+        if not Path(chrome_path).exists():
+            print("    Google Chrome not found, skipping screenshot.")
+            return
+
+        subprocess.run(
+            [
+                chrome_path,
+                "--headless",
+                f"--screenshot={output_path}",
+                "--window-size=1280,800",
+                url,
+            ],
+            timeout=120,
+            capture_output=True,
+        )
+        print(f"    Screenshot saved to {output_path}")
+    except Exception as e:
+        print(f"    Failed to capture screenshot for {url}: {e}")
 
 
 def get_project_description(project_dir: Path) -> str:
@@ -75,6 +132,9 @@ def get_github_url(project_name: str) -> str:
 
 def get_deployed_url(project_name: str) -> str | None:
     """Generate GitHub Pages URL if deployed, None otherwise"""
+    if project_name in CUSTOM_URLS:
+        return CUSTOM_URLS[project_name]
+
     # Common patterns for GitHub Pages
     base_url = f"https://polerix.github.io/{project_name}"
 
@@ -137,6 +197,8 @@ def is_recently_modified(project_dir: Path) -> bool:
 
 def has_landing_page(project_dir: Path) -> bool:
     """Check if project has a landing page"""
+    if project_dir.name in CUSTOM_URLS:
+        return True
     for landing in LANDING_PAGES:
         if (project_dir / landing).exists():
             return True
@@ -149,13 +211,14 @@ def copy_under_construction(project_name: str) -> str:
     dest = project_dir / "under-construction.html"
 
     if not dest.exists():
+        os.makedirs(project_dir, exist_ok=True) # Ensure the project directory exists
         shutil.copy2(UNDER_CONSTRUCTION, dest)
         print(f"  Copied under-construction.html to {project_name}")
 
     return "under-construction.html"
 
 
-def generate_project_html(project_name: str, project_dir: Path) -> str:
+def generate_project_html(project_name: str, project_dir: Path, pinned: bool = False, force_screenshot: bool = False) -> str:
     """Generate HTML for a single project entry"""
 
     has_landing = has_landing_page(project_dir)
@@ -179,14 +242,21 @@ def generate_project_html(project_name: str, project_dir: Path) -> str:
         open_url = f"https://polerix.github.io/{project_name}/under-construction.html"
 
     github_url = get_github_url(project_name)
+    
+    style = ""
+    if pinned:
+        screenshot_path = SCREENSHOT_DIR / f"{project_name}.png"
+        capture_screenshot(open_url, screenshot_path, force=force_screenshot)
+        if screenshot_path.exists():
+            style = f'style="--bg-image: url(resources/screenshots/{project_name}.png);"'
+
 
     # Generate the HTML (bubble style)
     fire_icon = "🔥 " if is_recent else ""
     muted_class = " muted" if not has_landing else ""
+    pinned_class = " pinned" if pinned else ""
 
-    html = f'''      <div class="bubble{muted_class}" data-name="{project_name}">
-        <div class="inner-glow"></div>
-        <div class="light-spot"></div>
+    html = f'''      <div class="bubble{muted_class}{pinned_class}" data-name="{project_name}" {style}>
         <div class="name">{fire_icon}{project_name}</div>
         <div class="desc">{description}</div>
         <div class="actions">
@@ -221,7 +291,7 @@ def get_all_projects() -> list[tuple[Path, datetime]]:
     return projects
 
 
-def update_index_html():
+def update_index_html(force_screenshot: bool = False):
     """Update the index.html with current project list"""
 
     print("Scanning projects...")
@@ -245,7 +315,7 @@ def update_index_html():
 
         print()
 
-        html = generate_project_html(project_name, project_dir)
+        html = generate_project_html(project_name, project_dir, force_screenshot=force_screenshot)
         project_entries.append(html)
 
     # Read the template
@@ -279,6 +349,10 @@ def update_index_html():
 
 def main():
     """Main entry point"""
+    parser = argparse.ArgumentParser(description="Big0Time Project Sync Script")
+    parser.add_argument("--force-screenshot", action="store_true", help="Force new screenshots to be captured, even if recent.")
+    args = parser.parse_args()
+
     print("=" * 50)
     print("Big0Time Project Sync")
     print("=" * 50)
@@ -296,7 +370,7 @@ def main():
         print(f"ERROR: under-construction.html not found: {UNDER_CONSTRUCTION}")
         return
 
-    update_index_html()
+    update_index_html(force_screenshot=args.force_screenshot)
 
     print("\nSync complete!")
 
