@@ -295,28 +295,37 @@ def update_index_html(force_screenshot: bool = False):
     """Update the index.html with current project list"""
 
     print("Scanning projects...")
-    projects = get_all_projects()
+    os.makedirs(SCREENSHOT_DIR, exist_ok=True)
+    all_projects = get_all_projects()
+    
+    # Separate pinned projects
+    pinned_projs = [p for p in all_projects if p[0].name in PINNED_PROJECTS]
+    other_projs = [p for p in all_projects if p[0].name not in PINNED_PROJECTS]
+    
+    # Sort pinned projects according to the PINNED_PROJECTS list
+    pinned_projs.sort(key=lambda x: PINNED_PROJECTS.index(x[0].name))
 
-    print(f"Found {len(projects)} projects")
+    print(f"Found {len(all_projects)} projects ({len(pinned_projs)} pinned).")
 
-    # Generate project HTML entries
-    project_entries = []
-    for project_dir, mod_date in projects:
-        project_name = project_dir.name
-        print(f"  {project_name}: {mod_date.strftime('%Y-%m-%d')}", end="")
+    # Generate pinned project HTML
+    pinned_entries = []
+    if pinned_projs:
+        pinned_entries.append('<div class="grid-title">Pinned</div>')
+        for project_dir, mod_date in pinned_projs:
+            project_name = project_dir.name
+            print(f"  - {project_name} (pinned)")
+            html = generate_project_html(project_name, project_dir, pinned=True, force_screenshot=force_screenshot)
+            pinned_entries.append(html)
 
-        has_landing = has_landing_page(project_dir)
-        is_recent = is_recently_modified(project_dir)
-
-        if not has_landing:
-            print(" [no landing]", end="")
-        if is_recent:
-            print(" [recent]", end="")
-
-        print()
-
-        html = generate_project_html(project_name, project_dir, force_screenshot=force_screenshot)
-        project_entries.append(html)
+    # Generate other project HTML
+    other_entries = []
+    if other_projs:
+        other_entries.append('<div class="grid-title">All Projects</div>')
+        for project_dir, mod_date in other_projs:
+            project_name = project_dir.name
+            print(f"  - {project_name}")
+            html = generate_project_html(project_name, project_dir, force_screenshot=force_screenshot)
+            other_entries.append(html)
 
     # Read the template
     template = INDEX_HTML.read_text(encoding='utf-8')
@@ -332,12 +341,12 @@ def update_index_html(force_screenshot: bool = False):
         print("ERROR: Could not find menu markers in index.html")
         return
 
-    # Build new template (bubble grid style)
+    # Build new template
+    grid_html = '\n'.join(pinned_entries) + '\n' + '\n'.join(other_entries)
+    
     new_template = (
         template[:start_idx + len(menu_start)] +
-        '\n    <div class="grid">' +
-        '\n'.join(project_entries) +
-        '\n    </div>' +
+        f'\n    <div class="grid">\n{grid_html}\n    </div>' +
         template[end_idx:]
     )
 
