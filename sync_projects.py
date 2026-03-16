@@ -91,37 +91,31 @@ def get_deployed_url(project_name: str) -> str | None:
 
 
 def get_project_modification_date(project_dir: Path) -> datetime:
-    """Get the most recent modification date of any file in the project"""
+    """Get the most recent modification date (fast version)"""
     latest_date = datetime(1970, 1, 1)
 
-    # Check .git for commit dates
+    # Check .git for commit dates (most reliable and fastest)
     git_dir = project_dir / ".git"
     if git_dir.exists():
         try:
-            # Get most recent commit date
+            # Get most recent commit date using a faster git command
             result = subprocess.run(
                 ["git", "log", "-1", "--format=%ct"],
                 cwd=project_dir,
                 capture_output=True,
                 text=True,
-                timeout=10
+                timeout=5
             )
             if result.returncode == 0 and result.stdout.strip():
                 timestamp = int(result.stdout.strip())
-                commit_date = datetime.fromtimestamp(timestamp)
-                latest_date = max(latest_date, commit_date)
+                return datetime.fromtimestamp(timestamp)
         except Exception:
             pass
 
-    # Also check file modification times as fallback
+    # Fallback to directory mtime (much faster than recursive glob)
     try:
-        for item in project_dir.rglob("*"):
-            if item.is_file() and not item.name.startswith('.'):
-                # Skip large files
-                if item.stat().st_size > 10_000_000:
-                    continue
-                mtime = datetime.fromtimestamp(item.stat().st_mtime)
-                latest_date = max(latest_date, mtime)
+        mtime = datetime.fromtimestamp(project_dir.stat().st_mtime)
+        return max(latest_date, mtime)
     except Exception:
         pass
 

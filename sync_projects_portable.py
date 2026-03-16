@@ -37,6 +37,12 @@ PINNED_PROJECTS = [
     "satans_spreadsheet",
     "HackersTeam",
     "sandrineportfolio",
+    "mobius farm",
+    "AetherStones — Council of Green Point",
+    "TOUSKI",
+    "Neutral_Zero",
+    "PixelDuel",
+    "PixelDuelII",
 ]
 
 # Custom URLs for specific projects
