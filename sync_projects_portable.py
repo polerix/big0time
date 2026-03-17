@@ -41,8 +41,8 @@ PINNED_PROJECTS = [
     "AetherStones — Council of Green Point",
     "TOUSKI",
     "Neutral_Zero",
-    "PixelDuel",
     "PixelDuelII",
+    "pixelduel",
 ]
 
 # Custom URLs for specific projects
@@ -224,6 +224,23 @@ def copy_under_construction(project_name: str) -> str:
     return "under-construction.html"
 
 
+def get_commit_count_last_7_days(project_dir: Path) -> int:
+    """Get number of commits in the last 7 days"""
+    try:
+        result = subprocess.run(
+            ["git", "rev-list", "--count", "--since", "7 days ago", "HEAD"],
+            cwd=project_dir,
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0:
+            return int(result.stdout.strip())
+    except Exception:
+        pass
+    return 0
+
+
 def generate_project_html(project_name: str, project_dir: Path, pinned: bool = False, force_screenshot: bool = False) -> str:
     """Generate HTML for a single project entry"""
 
@@ -257,13 +274,26 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
             style = f'style="--bg-image: url(resources/screenshots/{project_name}.png);"'
 
 
+    # Determine the status icon
+    if pinned:
+        status_icon = "🥇 "
+    elif not has_landing:
+        status_icon = "🛠️ "
+    else:
+        recent_commits = get_commit_count_last_7_days(project_dir)
+        if recent_commits >= 3:
+            status_icon = "🔥🔥 "
+        elif recent_commits >= 1:
+            status_icon = "🔥 "
+        else:
+            status_icon = ""
+
     # Generate the HTML (bubble style)
-    fire_icon = "🔥 " if is_recent else ""
     muted_class = " muted" if not has_landing else ""
     pinned_class = " pinned" if pinned else ""
 
     html = f'''      <div class="bubble{muted_class}{pinned_class}" data-name="{project_name}" {style}>
-        <div class="name">{fire_icon}{project_name}</div>
+        <div class="name">{status_icon}{project_name}</div>
         <div class="desc">{description}</div>
         <div class="actions">
           <a href="{open_url}" target="_blank" rel="noopener noreferrer"><button>Open</button></a>
