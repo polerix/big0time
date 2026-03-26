@@ -30,25 +30,25 @@ SCREENSHOT_EXPIRY_SECONDS = 24 * 60 * 60  # Screenshots expire after 24 hours
 
 # Pinned projects
 PINNED_PROJECTS = [
-    "SecurityAdventure",
-    "VAX_Console_Sim",
-    "KraemerverseWiki",
-    "TornadoCones",
-    "satans_spreadsheet",
-    "HackersTeam",
-    "sandrineportfolio",
-    "mobius farm",
-    "AetherStones — Council of Green Point",
-    "TOUSKI",
-    "Neutral_Zero",
-    "PixelDuelII",
-    "pixelduel",
+    "security-adventure",
+    "vax-console-sim",
+    "kraemeverse-wiki",
+    "tornado-cones",
+    "satans-spreadsheet",
+    "hackers-team",
+    "sandrine-portfolio",
+    "mobius-farm",
+    "aetherstones-council-of-green-point",
+    "touski",
+    "neutral-zero",
+    "pixel-duel-ii",
+    "pixel-duel",
 ]
 
 # Custom URLs for specific projects
 CUSTOM_URLS = {
-    "HackersTeam": "https://polerix.github.io/HackersTeam/frontend/",
-    "sandrineportfolio": "https://polerix.github.io/sandrineportfolio/",
+    "hackers-team": "https://polerix.github.io/hackers-team/frontend/",
+    "sandrine-portfolio": "https://polerix.github.io/sandrine-portfolio/",
 }
 
 # Landing page patterns to check (in order of preference)
