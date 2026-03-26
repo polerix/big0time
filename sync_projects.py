@@ -2,7 +2,7 @@
 """
 Big0Time Project Sync Script
 
-Scans the GitHub projects directory and updates the BIG0TIME index.html with:
+Scans the GitHub projects directory and updates the big0time index.html with:
 - Projects sorted by modification date (newest first)
 - Grayed out text for projects without landing pages
 - Fire icon (🔥) for recently active projects (modified in last 7 days)
@@ -17,7 +17,7 @@ from datetime import datetime, timedelta
 
 # Configuration
 GITHUB_DIR = Path("/Users/polerixsys/Documents/GitHub")
-BIG0TIME_DIR = GITHUB_DIR / "BIG0TIME"
+BIG0TIME_DIR = GITHUB_DIR / "big0time"
 UNDER_CONSTRUCTION = BIG0TIME_DIR / "under-construction.html"
 INDEX_HTML = BIG0TIME_DIR / "index.html"
 RECENT_DAYS = 7  # Projects modified within this many days get fire icon
@@ -201,8 +201,8 @@ def get_all_projects() -> list[tuple[Path, datetime]]:
         # Skip hidden directories and special dirs
         if item.name.startswith('.') or item.name.startswith('clawd'):
             continue
-        # Skip BIG0TIME itself
-        if item.name == "BIG0TIME":
+        # Skip big0time itself
+        if item.name == "big0time":
             continue
 
         mod_date = get_project_modification_date(item)
@@ -282,7 +282,7 @@ def main():
         return
 
     if not BIG0TIME_DIR.exists():
-        print(f"ERROR: BIG0TIME directory not found: {BIG0TIME_DIR}")
+        print(f"ERROR: big0time directory not found: {BIG0TIME_DIR}")
         return
 
     if not UNDER_CONSTRUCTION.exists():
