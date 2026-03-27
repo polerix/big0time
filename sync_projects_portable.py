@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import re
 """
 Big0Time Project Sync Script
 
@@ -52,6 +53,7 @@ CUSTOM_URLS = {
 }
 
 # Landing page patterns to check (in order of preference)
+SEARCH_SUBDIRS = [".", "dist", "public", "frontend", "docs"]
 LANDING_PAGES = [
     "index.html",
     "index.htm",
@@ -136,62 +138,50 @@ def get_github_url(project_name: str) -> str:
     return f"https://github.com/polerix/{project_name}"
 
 
-def get_deployed_url(project_name: str) -> str | None:
-    """Generate GitHub Pages URL if deployed, None otherwise"""
+def find_landing_page(project_dir: Path) -> tuple[str, str] | None:
+    project_name = project_dir.name
     if project_name in CUSTOM_URLS:
-        return CUSTOM_URLS[project_name]
-
-    # Common patterns for GitHub Pages
+        return CUSTOM_URLS[project_name], ""
     base_url = f"https://polerix.github.io/{project_name}"
-
-    project_dir = GITHUB_DIR / project_name
-
-    # Check if any of the landing pages exist
-    for landing in LANDING_PAGES:
-        landing_path = project_dir / landing
-        if landing_path.exists():
-            if landing == "index.html" or landing == "index.htm":
-                return base_url + "/"
-            return f"{base_url}/{landing}"
-
+    for subdir in SEARCH_SUBDIRS:
+        target_dir = project_dir / subdir
+        if not target_dir.exists(): continue
+        for landing in LANDING_PAGES:
+            landing_path = target_dir / landing
+            if landing_path.exists():
+                url_suffix = "" if subdir == "." else f"{subdir}/"
+                file_suffix = "" if landing in ["index.html", "index.htm"] else landing
+                return f"{base_url}/{url_suffix}{file_suffix}", str(landing_path)
+        try:
+            for item in target_dir.glob("index*.html"):
+                url_suffix = "" if subdir == "." else f"{subdir}/"
+                return f"{base_url}/{url_suffix}{item.name}", str(item)
+        except: pass
     return None
+def get_deployed_url(project_name: str) -> str | None:
+    project_dir = GITHUB_DIR / project_name
+    found = find_landing_page(project_dir)
+    return found[0] if found else None
 
 
 def get_project_modification_date(project_dir: Path) -> datetime:
-    """Get the most recent modification date of any file in the project"""
     latest_date = datetime(1970, 1, 1)
-
-    # Check .git for commit dates
     git_dir = project_dir / ".git"
     if git_dir.exists():
         try:
-            # Get most recent commit date
-            result = subprocess.run(
-                ["git", "log", "-1", "--format=%ct"],
-                cwd=project_dir,
-                capture_output=True,
-                text=True,
-                timeout=10
-            )
+            result = subprocess.run(["git", "log", "-1", "--format=%ct"], cwd=project_dir, capture_output=True, text=True, timeout=5)
             if result.returncode == 0 and result.stdout.strip():
-                timestamp = int(result.stdout.strip())
-                commit_date = datetime.fromtimestamp(timestamp)
-                latest_date = max(latest_date, commit_date)
-        except Exception:
-            pass
-
-    # Also check file modification times as fallback
-    try:
-        for item in project_dir.rglob("*"):
-            if item.is_file() and not item.name.startswith('.'):
-                # Skip large files
-                if item.stat().st_size > 10_000_000:
-                    continue
-                mtime = datetime.fromtimestamp(item.stat().st_mtime)
-                latest_date = max(latest_date, mtime)
-    except Exception:
-        pass
-
+                return datetime.fromtimestamp(int(result.stdout.strip()))
+        except: pass
+    check_paths = [project_dir, project_dir / "src", project_dir / "public", project_dir / "frontend"]
+    for path in check_paths:
+        if path.exists():
+            try:
+                for item in path.iterdir():
+                    if item.is_file() and not item.name.startswith("."): 
+                        mtime = datetime.fromtimestamp(item.stat().st_mtime)
+                        latest_date = max(latest_date, mtime)
+            except: pass
     return latest_date
 
 
@@ -242,28 +232,17 @@ def get_commit_count_last_7_days(project_dir: Path) -> int:
 
 
 def generate_project_html(project_name: str, project_dir: Path, pinned: bool = False, force_screenshot: bool = False) -> str:
-    """Generate HTML for a single project entry"""
-
-    has_landing = has_landing_page(project_dir)
-    is_recent = is_recently_modified(project_dir)
+    landing_found = find_landing_page(project_dir)
+    has_landing = landing_found is not None
     description = get_project_description(project_dir)
-
-    # Strip HTML tags from description for clean display
-    import re
-    description = re.sub(r'<[^>]+>', '', description)
-    # Clean up common artifacts
-    description = description.replace('**', '').replace('\\u', '').strip()
-    if len(description) > 80:
-        description = description[:77] + '...'
-
-    # Determine the open URL
+    description = re.sub(r"<[^>]+>", "", description)
+    description = description.replace("**", "").replace("\\u", "").strip()
+    if len(description) > 80: description = description[:77] + "..."
     if has_landing:
-        open_url = get_deployed_url(project_name)
+        open_url = landing_found[0]
     else:
-        # Copy under-construction and link to it
         copy_under_construction(project_name)
         open_url = f"https://polerix.github.io/{project_name}/under-construction.html"
-
     github_url = get_github_url(project_name)
     
     style = ""
