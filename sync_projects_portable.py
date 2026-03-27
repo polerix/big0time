@@ -159,14 +159,21 @@ def find_landing_page(project_dir: Path) -> tuple[str, str] | None:
     for subdir in SEARCH_SUBDIRS:
         target_dir = project_dir / subdir
         if not target_dir.exists(): continue
+        # 1. Check for index.html at root FIRST if searching root
+        if subdir == ".":
+            for f in ["index.html", "index.htm"]:
+                if (target_dir / f).exists(): return f"{base_url}/", str(target_dir / f)
+        # 2. Try exact matches from LANDING_PAGES list
         for landing in LANDING_PAGES:
             landing_path = target_dir / landing
             if landing_path.exists():
                 url_suffix = "" if subdir == "." else f"{subdir}/"
                 file_suffix = "" if landing in ["index.html", "index.htm"] else landing
                 return f"{base_url}/{url_suffix}{file_suffix}", str(landing_path)
+        # 3. Try flexible matching (index*.html) - SKIP if it is under-construction
         try:
             for item in target_dir.glob("index*.html"):
+                if "under-construction" in item.name: continue
                 url_suffix = "" if subdir == "." else f"{subdir}/"
                 return f"{base_url}/{url_suffix}{item.name}", str(item)
         except: pass
