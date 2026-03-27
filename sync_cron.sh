@@ -1,6 +1,6 @@
 #!/bin/bash
 # Big0Time Project Sync Cron Script
-# Run this to sync projects from GitHub directory to BIG0TIME index
+# Run this to sync projects from GitHub directory to big0time index
 
 LOCKFILE="/tmp/big0time_sync.lock"
 

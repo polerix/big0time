@@ -3,7 +3,7 @@ import re
 """
 Big0Time Project Sync Script
 
-Scans the GitHub projects directory and updates the BIG0TIME index.html with:
+Scans the GitHub projects directory and updates the big0time index.html with:
 - Pinned projects at the top
 - Projects sorted by modification date (newest first)
 - Grayed out text for projects without landing pages
@@ -21,11 +21,11 @@ import argparse
 
 # Configuration
 SCRIPT_DIR = Path(__file__).resolve().parent
-BIG0TIME_DIR = SCRIPT_DIR
-GITHUB_DIR = BIG0TIME_DIR.parent
-UNDER_CONSTRUCTION = BIG0TIME_DIR / "under-construction.html"
-INDEX_HTML = BIG0TIME_DIR / "index.html"
-SCREENSHOT_DIR = BIG0TIME_DIR / "resources" / "screenshots"
+big0time_DIR = SCRIPT_DIR
+GITHUB_DIR = big0time_DIR.parent
+UNDER_CONSTRUCTION = big0time_DIR / "under-construction.html"
+INDEX_HTML = big0time_DIR / "index.html"
+SCREENSHOT_DIR = big0time_DIR / "resources" / "screenshots"
 RECENT_DAYS = 7  # Projects modified within this many days get fire icon
 SCREENSHOT_EXPIRY_SECONDS = 24 * 60 * 60  # Screenshots expire after 24 hours
 
@@ -306,8 +306,8 @@ def get_all_projects() -> list[tuple[Path, datetime]]:
         # Skip hidden directories and special dirs
         if item.name.startswith('.') or item.name.startswith('clawd'):
             continue
-        # Skip BIG0TIME itself
-        if item.name == "BIG0TIME":
+        # Skip big0time itself
+        if item.name == "big0time":
             continue
 
         mod_date = get_project_modification_date(item)
@@ -399,8 +399,8 @@ def main():
         print(f"ERROR: GitHub directory not found: {GITHUB_DIR}")
         return
 
-    if not BIG0TIME_DIR.exists():
-        print(f"ERROR: BIG0TIME directory not found: {BIG0TIME_DIR}")
+    if not big0time_DIR.exists():
+        print(f"ERROR: big0time directory not found: {big0time_DIR}")
         return
 
     if not UNDER_CONSTRUCTION.exists():

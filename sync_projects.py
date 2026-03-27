@@ -17,9 +17,9 @@ from datetime import datetime, timedelta
 
 # Configuration
 GITHUB_DIR = Path("/Users/polerixsys/Documents/GitHub")
-BIG0TIME_DIR = GITHUB_DIR / "big0time"
-UNDER_CONSTRUCTION = BIG0TIME_DIR / "under-construction.html"
-INDEX_HTML = BIG0TIME_DIR / "index.html"
+big0time_DIR = GITHUB_DIR / "big0time"
+UNDER_CONSTRUCTION = big0time_DIR / "under-construction.html"
+INDEX_HTML = big0time_DIR / "index.html"
 RECENT_DAYS = 7  # Projects modified within this many days get fire icon
 
 # Landing page patterns to check (in order of preference)
@@ -281,8 +281,8 @@ def main():
         print(f"ERROR: GitHub directory not found: {GITHUB_DIR}")
         return
 
-    if not BIG0TIME_DIR.exists():
-        print(f"ERROR: big0time directory not found: {BIG0TIME_DIR}")
+    if not big0time_DIR.exists():
+        print(f"ERROR: big0time directory not found: {big0time_DIR}")
         return
 
     if not UNDER_CONSTRUCTION.exists():

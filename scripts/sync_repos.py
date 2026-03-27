@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sync_repos.py – BIG0TIME portal auto-updater
+sync_repos.py – big0time portal auto-updater
 =============================================
 No external dependencies – uses only Python stdlib.
 
@@ -23,7 +23,7 @@ Run manually
   python3 scripts/sync_repos.py
 
 Cron example (daily at 03:00 local time):
-  0 3 * * * cd /Users/yourname/Documents/GitHub/BIG0TIME && python3 scripts/sync_repos.py >> /tmp/sync_repos.log 2>&1
+  0 3 * * * cd /Users/yourname/Documents/GitHub/big0time && python3 scripts/sync_repos.py >> /tmp/sync_repos.log 2>&1
 """
 
 import json
@@ -89,7 +89,7 @@ def pages_live(repo_name: str) -> bool:
     """Return True if polerix.github.io/<repo>/ responds with a success or redirect."""
     url = f"{PAGES_BASE}/{repo_name}/"
     req = urllib.request.Request(url, method="HEAD")
-    req.add_header("User-Agent", "BIG0TIME-sync/1.0")
+    req.add_header("User-Agent", "big0time-sync/1.0")
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
             return resp.status < 400
@@ -187,7 +187,7 @@ def main() -> None:
 
     for repo in all_r:
         name = repo["name"]
-        if name == "BIG0TIME":
+        if name == "big0time":
             continue
         if name in existing:
             included.append(repo)          # already listed → always keep
