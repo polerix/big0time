@@ -133,16 +133,29 @@ def get_project_description(project_dir: Path) -> str:
     return ""
 
 
-def get_github_url(project_name: str) -> str:
-    """Generate GitHub URL from project name"""
-    return f"https://github.com/polerix/{project_name}"
+def get_github_url(project_dir: Path) -> str:
+    try:
+        result = subprocess.run(["git", "remote", "get-url", "origin"], cwd=project_dir, capture_output=True, text=True, timeout=5)
+        if result.returncode == 0:
+            url = result.stdout.strip()
+            if url.endswith(".git"): url = url[:-4]
+            if "git@github.com:" in url: url = url.replace("git@github.com:", "https://github.com/")
+            return url
+    except: pass
+    return f"https://github.com/polerix/{project_dir.name}"
 
 
 def find_landing_page(project_dir: Path) -> tuple[str, str] | None:
     project_name = project_dir.name
-    if project_name in CUSTOM_URLS:
-        return CUSTOM_URLS[project_name], ""
-    base_url = f"https://polerix.github.io/{project_name}"
+    if project_name in CUSTOM_URLS: return CUSTOM_URLS[project_name], ""
+    try:
+        result = subprocess.run(["git", "remote", "get-url", "origin"], cwd=project_dir, capture_output=True, text=True, timeout=5)
+        if result.returncode == 0:
+            remote_url = result.stdout.strip().replace(".git", "")
+            repo_name = remote_url.split("/")[-1]
+            base_url = f"https://polerix.github.io/{repo_name}"
+        else: base_url = f"https://polerix.github.io/{project_name}"
+    except: base_url = f"https://polerix.github.io/{project_name}"
     for subdir in SEARCH_SUBDIRS:
         target_dir = project_dir / subdir
         if not target_dir.exists(): continue
@@ -243,7 +256,7 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
     else:
         copy_under_construction(project_name)
         open_url = f"https://polerix.github.io/{project_name}/under-construction.html"
-    github_url = get_github_url(project_name)
+    github_url = get_github_url(project_dir)
     
     style = ""
     if pinned:
