@@ -38,7 +38,7 @@ PINNED_PROJECTS = [
     "satans-spreadsheet",
     "hackers-team",
     "sandrine-portfolio",
-    "mobius-farm",
+    "mobius-farm-II",
     "aetherstones-council-of-green-point",
     "touski",
     "neutral-zero",
