@@ -247,10 +247,10 @@ def generate_project_html(project_name: str, project_dir: Path, pinned: bool = F
     
     style = ""
     if pinned:
-        screenshot_path = SCREENSHOT_DIR / f"{project_name}.png"
+        screenshot_path = SCREENSHOT_DIR / f"{project_name.lower()}.png"
         capture_screenshot(open_url, screenshot_path, force=force_screenshot)
         if screenshot_path.exists():
-            style = f'style="--bg-image: url(resources/screenshots/{project_name}.png);"'
+            style = f'style="--bg-image: url(resources/screenshots/" + project_name.lower() + ".png);"'
 
 
     # Determine the status icon
