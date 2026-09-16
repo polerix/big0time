@@ -129,6 +129,61 @@
 
   const CHANGED_ITEMS = [
     {
+      name: "ChunkyMatrix",
+      slug: "chunkymatrix",
+      repo: "https://github.com/polerix/ChunkyMatrix",
+      execute: "https://polerix.github.io/ChunkyMatrix/",
+      description: "A Commodore 64 Matrix rain screensaver recreated for the browser with CRT glow, scanlines, and gyroscope tilt.",
+      pushedAt: "2026-09-16T15:57:11Z"
+    },
+    {
+      name: "God's Eye View",
+      slug: "gods-eye-view",
+      repo: "https://github.com/bilawalsidhu/gods-eye-view",
+      description: "A browser-based spy-satellite simulator that brings public aircraft, ships, satellites, traffic, and camera feeds into a 3D globe.",
+      pushedAt: "2026-09-15T10:18:30Z"
+    },
+    {
+      name: "SpinnerCockpit",
+      slug: "spinnercockpit",
+      repo: "https://github.com/polerix/SpinnerCockpit",
+      execute: "https://polerix.github.io/SpinnerCockpit/",
+      description: "A full-screen Blade Runner Spinner cockpit HUD designed to align with a 3D-printed Samsung Galaxy S10+ mask.",
+      pushedAt: "2026-09-14T23:19:09Z"
+    },
+    {
+      name: "SquareWatch",
+      slug: "squarewatch",
+      repo: "https://github.com/polerix/Squarewatch",
+      execute: "https://polerix.github.io/Squarewatch/",
+      description: "A Canadian streaming-availability tracker for films and series.",
+      pushedAt: "2026-09-14T12:57:45Z"
+    },
+    {
+      name: "ESPER machine",
+      slug: "esper-machine",
+      repo: "https://github.com/polerix/ESPER-machine",
+      execute: "https://polerix.github.io/ESPER-machine/",
+      description: "A Blade Runner ESPER photo-analysis console with a cinematic 3D interface.",
+      pushedAt: "2026-09-10T10:27:19Z"
+    },
+    {
+      name: "ESPER 09-AF",
+      slug: "esper-09-af",
+      repo: "https://github.com/polerix/ESPER-09-AF",
+      execute: "https://polerix.github.io/ESPER-09-AF/",
+      description: "Under construction: a retro-industrial web console and native macOS controller for the Logitech QuickCam Orbit AF.",
+      pushedAt: "2026-09-09T17:31:31Z"
+    },
+    {
+      name: "Leap Frogs",
+      slug: "leap-frogs",
+      repo: "https://github.com/polerix/leap-frogs",
+      execute: "https://polerix.github.io/leap-frogs/",
+      description: "A mouse- and touch-controlled arcade game about catching descending frogs.",
+      pushedAt: "2026-09-09T22:05:34Z"
+    },
+    {
       name: "MaticSpirits",
       slug: "maticspirits",
       repo: "https://github.com/polerix/MaticSpirits",
