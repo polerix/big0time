@@ -1,0 +1,58 @@
+name: Rebuild index
+
+# Every 4 hours: work out what earns a pin, what is new or recently updated, which sites really
+# work, and what belongs at the bottom (non-web repos, dead sites, forks). Rewrites only the
+# catalogue block of index.html, and only commits when the result changed.
+# Reads public data only, so private repos are never listed. It never deletes or edits repos.
+
+on:
+  schedule:
+    - cron: '23 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Report only, do not change index.html
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Tests (a failing test stops the run before anything is written)
+        run: python3 -m unittest discover -s tests -v
+      - name: Rebuild index.html
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            python3 scripts/build_index.py --dry-run --report "$GITHUB_STEP_SUMMARY"
+          else
+            python3 scripts/build_index.py --report "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Commit and publish if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "index.html unchanged"
+            exit 0
+          fi
+          git config user.name "big0time-index[bot]"
+          git config user.email "big0time-index[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "chore(index): refresh catalogue"
+          git push
+          # Pushes made with GITHUB_TOKEN may not start a Pages build by themselves, so ask for one.
+          gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" >/dev/null || echo "::warning::could not request a Pages build"
