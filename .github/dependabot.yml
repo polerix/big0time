@@ -1,0 +1,17 @@
+# Dependabot: monthly, one grouped PR per ecosystem for minor and patch updates.
+# Major versions are excluded from the group, so a breaking change opens its own PR
+# and never rides along with routine updates.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
