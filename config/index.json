@@ -105,7 +105,9 @@
     "ascii-lab",
     "move-blaster",
     "vk-console",
-    "ytdl-gui"
+    "ytdl-gui",
+    "xenohive-gauntlet",
+    "esper-09-af"
   ],
   "descriptions": {
     "chunkymatrix": "A Commodore 64 Matrix rain screensaver recreated for the browser with CRT glow, scanlines, and gyroscope tilt.",
