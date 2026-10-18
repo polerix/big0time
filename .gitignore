@@ -3,3 +3,9 @@
 # Python
 __pycache__/
 *.pyc
+
+# Compliance hygiene
+node_modules/
+.venv/
+venv/
+.env

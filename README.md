@@ -35,3 +35,20 @@ python3 -m unittest discover -s tests        # tests
 
 `sync_projects.py`, `sync_projects_portable.py` and `sync_cron.sh` are the old local-disk scripts. They are superseded by the runner
 (they also copy files into other projects' folders); do not run them together with it.
+
+## Deployment & Repository Status
+
+- **Standardized Name**: `big0time`
+- **Remote Origin**: `https://github.com/polerix/big0time.git`
+- **License Level**: `MIT` ([`LICENSE`](LICENSE))
+- **Security Policy**: [`SECURITY.md`](SECURITY.md)
+- **GitHub Actions**: ✅ Active
+- **Last Compliance Audit**: `2026-10-18`
+
+### GitHub CleanUp Log
+- **Unused / Archive / Cache Items Moved to `/Volumes/Clay/GitHubCleanUp/big0time/`**: 5 item(s) (11 files, 0.19 MB)
+  - `under-construction.html` — Unused placeholder HTML stub (1 file(s), 1.6 KB)
+  - `.DS_Store` — OS metadata file (1 file(s), 6.0 KB)
+  - `resources/.DS_Store` — OS metadata file (1 file(s), 6.0 KB)
+  - `tests/__pycache__` — Local dependency/build cache (__pycache__) (4 file(s), 63.7 KB)
+  - `scripts/__pycache__` — Local dependency/build cache (__pycache__) (4 file(s), 118.6 KB)
