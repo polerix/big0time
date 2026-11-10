@@ -85,10 +85,15 @@ def days_ago(ts, now):
     return (now - ts).total_seconds() / 86400 if ts else 1e9
 
 
+# Words the generated cards use. Override any key under "theme" in config/index.json.
+THEME = {"id_prefix": "BIGTIMETV", "unit": "CHANNELS"}
+
+
 def load_config(path: Path) -> dict:
     cfg = dict(DEFAULTS)
     if path.exists():
         cfg.update(json.loads(path.read_text()))
+    THEME.update(cfg.get("theme", {}))
     return cfg
 
 
@@ -296,7 +301,7 @@ def card(e, section, idx):
         acts.append(f'<a href="{esc(e["repo_url"])}" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>')
     a = "\n            ".join(acts)
     return (f'        <div class="{cls}" data-category="{cat}" data-name="{esc(slug(e["name"]))}" data-search="{search}"{style}>\n'
-            f'          <div class="card-header">\n            <span class="sys-id">LCARS-{prefix}-{idx:02d}</span>\n            {head}\n          </div>\n'
+            f'          <div class="card-header">\n            <span class="sys-id">{esc(THEME["id_prefix"])}-{prefix}-{idx:02d}</span>\n            {head}\n          </div>\n'
             f'          <div class="name">{name}</div>\n          <div class="desc">{desc}</div>\n'
             f'          <div class="actions">\n            {a}\n          </div>\n        </div>')
 
@@ -319,7 +324,7 @@ def render_block(sections, screenshots=frozenset()):
         for e in sections[key]:
             e["has_shot"] = e["name"].lower() in screenshots
         cards = "\n".join(card(e, key, i) for i, e in enumerate(sections[key], 1))
-        head = re.sub(r"(<div class=\"lcars-header-text\">[^<]*?)(</div>)", lambda m: f"{m.group(1)} ({len(sections[key])} NODES){m.group(2)}", SECTION_HEAD[key], count=1)
+        head = re.sub(r"(<div class=\"lcars-header-text\">[^<]*?)(</div>)", lambda m: f"{m.group(1)} ({len(sections[key])} {esc(THEME["unit"])}){m.group(2)}", SECTION_HEAD[key], count=1)
         parts.append(head + ("\n" + cards if cards else "") + "\n    </div>\n")
     return f"{START}\n" + "\n".join(parts) + f"\n{END}"
 

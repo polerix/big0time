@@ -225,8 +225,8 @@ class Curation(unittest.TestCase):
     def test_section_headers_show_node_counts(self):
         secs, _ = run([repo("a"), repo("b")], cfg=dict(CFG, pin_limit=0))
         block = bi.render_block(secs)
-        self.assertIn("03 // WHATEVER (2 NODES)", block)
-        self.assertIn("01 // PINNED SITES (0 NODES)", block)
+        self.assertIn("03 // WHATEVER (2 CHANNELS)", block)
+        self.assertIn("01 // PINNED SITES (0 CHANNELS)", block)
 
     def test_prefer_matches_by_slug(self):
         cold = repo("ButterPass-95", pushed=400, description="")

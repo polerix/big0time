@@ -196,5 +196,9 @@
     "esper-machine": "ESPER machine",
     "esper-09-af": "ESPER 09-AF",
     "leap-frogs": "Leap Frogs"
+  },
+  "theme": {
+    "id_prefix": "BIGTIMETV",
+    "unit": "CHANNELS"
   }
 }
