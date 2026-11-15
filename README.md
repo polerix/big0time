@@ -4,7 +4,7 @@
 
 ## How the catalogue is kept up to date
 
-`.github/workflows/index.yml` runs **every 4 hours** (and on demand from the Actions tab) and rebuilds the
+`.github/workflows/index.yml` runs **once a day** (and on demand from the Actions tab) and rebuilds the
 catalogue in `index.html` from GitHub's public data with `scripts/build_index.py` (standard library only).
 Nobody edits the cards by hand any more; edit `config/index.json` instead.
 
