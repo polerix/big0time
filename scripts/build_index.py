@@ -2,7 +2,7 @@
 """
 build_index.py: rebuild the catalogue block of index.html from GitHub's public data.
 
-Runs unattended every 4 hours (see .github/workflows/index.yml). Standard library only.
+Runs unattended once a day (see .github/workflows/index.yml). Standard library only.
 It rewrites ONLY the text between <!-- MENU START --> and <!-- MENU END -->, leaving the
 rest of the page (styles, nav, scripts) untouched.
 
@@ -28,11 +28,16 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote, urlparse
+
+# Be gentle with GitHub: at most 2 requests in flight, short pause before each.
+MAX_WORKERS = 2
+REQUEST_PAUSE = 0.5
 
 ROOT = Path(__file__).resolve().parent.parent
 START, END = "<!-- MENU START -->", "<!-- MENU END -->"
@@ -85,10 +90,15 @@ def days_ago(ts, now):
     return (now - ts).total_seconds() / 86400 if ts else 1e9
 
 
+# Words the generated cards use. Override any key under "theme" in config/index.json.
+THEME = {"id_prefix": "BIGTIMETV", "unit": "CHANNELS"}
+
+
 def load_config(path: Path) -> dict:
     cfg = dict(DEFAULTS)
     if path.exists():
         cfg.update(json.loads(path.read_text()))
+    THEME.update(cfg.get("theme", {}))
     return cfg
 
 
@@ -134,6 +144,7 @@ def meaningful_date(commits: list):
 def fetch_updated(user: str, name: str):
     """Newest meaningful commit date, or None if the API refuses (rate limit) so callers fall back to pushed_at."""
     try:
+        time.sleep(REQUEST_PAUSE)
         req = urllib.request.Request(f"{API}/repos/{user}/{quote(name)}/commits?per_page=15", headers=_headers())
         with urllib.request.urlopen(req, timeout=20) as r:
             return meaningful_date(json.loads(r.read()))
@@ -145,6 +156,7 @@ def check_site(url: str) -> bool:
     """A site works if it answers 2xx/3xx (after redirects) within 10 seconds. One retry."""
     for _ in range(2):
         try:
+            time.sleep(REQUEST_PAUSE)
             req = urllib.request.Request(url, headers={"User-Agent": "big0time-index"})
             with urllib.request.urlopen(req, timeout=10) as r:
                 return r.status < 400
@@ -296,7 +308,7 @@ def card(e, section, idx):
         acts.append(f'<a href="{esc(e["repo_url"])}" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>')
     a = "\n            ".join(acts)
     return (f'        <div class="{cls}" data-category="{cat}" data-name="{esc(slug(e["name"]))}" data-search="{search}"{style}>\n'
-            f'          <div class="card-header">\n            <span class="sys-id">LCARS-{prefix}-{idx:02d}</span>\n            {head}\n          </div>\n'
+            f'          <div class="card-header">\n            <span class="sys-id">{esc(THEME["id_prefix"])}-{prefix}-{idx:02d}</span>\n            {head}\n          </div>\n'
             f'          <div class="name">{name}</div>\n          <div class="desc">{desc}</div>\n'
             f'          <div class="actions">\n            {a}\n          </div>\n        </div>')
 
@@ -319,7 +331,7 @@ def render_block(sections, screenshots=frozenset()):
         for e in sections[key]:
             e["has_shot"] = e["name"].lower() in screenshots
         cards = "\n".join(card(e, key, i) for i, e in enumerate(sections[key], 1))
-        head = re.sub(r"(<div class=\"lcars-header-text\">[^<]*?)(</div>)", lambda m: f"{m.group(1)} ({len(sections[key])} NODES){m.group(2)}", SECTION_HEAD[key], count=1)
+        head = re.sub(r"(<div class=\"lcars-header-text\">[^<]*?)(</div>)", lambda m: f"{m.group(1)} ({len(sections[key])} {esc(THEME["unit"])}){m.group(2)}", SECTION_HEAD[key], count=1)
         parts.append(head + ("\n" + cards if cards else "") + "\n    </div>\n")
     return f"{START}\n" + "\n".join(parts) + f"\n{END}"
 
@@ -369,9 +381,9 @@ def main(argv=None):
     repos = fetch_repos(cfg["user"])
     urls = {site_url(r, cfg["user"]) for r in repos if (r.get("size", 1) or r.get("fork")) and not r.get("private")} | {safe_url(x.get("url")) for x in cfg["extras"]}
     urls.discard(None)
-    with cf.ThreadPoolExecutor(max_workers=16) as ex:
+    with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
         site_ok = dict(zip(sorted(urls), ex.map(check_site, sorted(urls))))
-    with cf.ThreadPoolExecutor(max_workers=8) as ex:
+    with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
         live_repos = [r for r in repos if not r.get("private") and (r.get("size", 1) or r.get("fork"))]
         for r, d in zip(live_repos, ex.map(lambda r: fetch_updated(cfg["user"], r["name"]), live_repos)):
             if d:

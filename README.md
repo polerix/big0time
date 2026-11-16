@@ -1,10 +1,10 @@
 # big0time
 
-*A Big0Time Project*: the LCARS project directory at [big0time.net](https://big0time.net).
+*A Big0Time Project*: the BIGTIMETV channel lineup directory at [big0time.net](https://big0time.net).
 
 ## How the catalogue is kept up to date
 
-`.github/workflows/index.yml` runs **every 4 hours** (and on demand from the Actions tab) and rebuilds the
+`.github/workflows/index.yml` runs **once a day** (and on demand from the Actions tab) and rebuilds the
 catalogue in `index.html` from GitHub's public data with `scripts/build_index.py` (standard library only).
 Nobody edits the cards by hand any more; edit `config/index.json` instead.
 
@@ -23,7 +23,7 @@ Rules the runner follows:
 - It only rewrites the block between `<!-- MENU START -->` and `<!-- MENU END -->`.
 - The tests run first; a failing test stops the run.
 
-`config/index.json` keys: `pin_lock` (always pinned), `pin_prefer` (small bonus), `pin_exclude`, `hidden` (never listed),
+`config/index.json` keys: `theme` (`id_prefix` for card IDs such as BIGTIMETV-PRIORITY-01, `unit` for the section counts), `pin_lock` (always pinned), `pin_prefer` (small bonus), `pin_exclude`, `hidden` (never listed),
 `no_execute` (site known broken: bottom of the page, REPOS only), `descriptions` and `titles` (hand-written text beats
 GitHub's), `extras` (sites of private repos, by URL), `pin_limit`, `new_days`, `recent_days`.
 Names match case- and punctuation-insensitively.

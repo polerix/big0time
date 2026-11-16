@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BIG0TIME // LCARS PROJECT DATABASE</title>
-  <meta name="description" content="LCARS Portal for Big0Time projects, business applications, games, and experimental lab toys by polerix." />
+  <title>BIGTIMETV // BIG0TIME CHANNEL LINEUP</title>
+  <meta name="description" content="BIGTIMETV: the Big0Time channel lineup directory of projects, business applications, games, and experimental lab toys by polerix." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -507,6 +507,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="resources/skin-8s.css">
 </head>
 
 <body>
@@ -514,7 +515,7 @@
 
     <!-- LCARS LEFT SIDEBAR BACKBONE -->
     <aside class="lcars-sidebar">
-      <div class="lcars-elbow">LCARS</div>
+      <div class="lcars-elbow">BIGTIMETV</div>
       <div class="lcars-bar-segment gold" onclick="filterCategory('all')">ALL-01</div>
       <div class="lcars-bar-segment blue" onclick="filterCategory('pinned')">PIN-02</div>
       <div class="lcars-bar-segment purple" onclick="filterCategory('changed')">NEW-03</div>
@@ -532,11 +533,11 @@
       <header class="lcars-header">
         <div class="lcars-title-block">
           <h1>⚡ BIG0TIME</h1>
-          <p>LCARS Project Database // Starfleet Subspace Directory</p>
+          <p>Channel Lineup Directory // BIGTIMETV</p>
         </div>
         <div class="lcars-system-meta">
-          <span class="meta-badge" id="stardate-display">SD 81326.4</span>
-          <span class="meta-badge">NODE STATUS: ONLINE</span>
+          <span class="meta-badge" id="clock-display">CH 00</span>
+          <span class="meta-badge">ON AIR</span>
         </div>
       </header>
 
@@ -550,7 +551,7 @@
           <button class="filter-btn toys" onclick="filterCategory('legacy', this)">[ 05 // LEGACY ]</button>
         </div>
         <div class="lcars-search-box">
-          <input type="text" id="lcars-search-input" placeholder="SEARCH SYSTEM DATABASE..." oninput="handleSearch()" />
+          <input type="text" id="lcars-search-input" placeholder="SEARCH CHANNEL LINEUP..." oninput="handleSearch()" />
         </div>
       </nav>
 
@@ -558,161 +559,104 @@
     <!-- SECTION: PINNED SITES -->
     <div class="lcars-section-header amber">
       <div class="lcars-elbow-top"></div>
-      <div class="lcars-header-text">01 // PINNED SITES (14 NODES)</div>
+      <div class="lcars-header-text">01 // PINNED SITES (8 CHANNELS)</div>
       <div class="lcars-header-bar"></div>
     </div>
     <div class="grid" id="grid-pinned">
-        <div class="bubble pinned" data-category="pinned" data-name="touski" data-search="touski weekly meal planner - &quot;tout ce qui reste&quot;" style="--bg-image: url(resources/screenshots/touski.png);">
+        <div class="bubble pinned" data-category="pinned" data-name="touski" data-search="touski weekly meal planner - &quot;tout ce qui reste&quot;">
           <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-01</span>
+            <span class="sys-id">BIGTIMETV-PRIORITY-01</span>
             <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
           </div>
           <div class="name">touski</div>
           <div class="desc">Weekly meal planner - &quot;Tout ce qui reste&quot;</div>
           <div class="actions">
+            <a href="https://polerix.github.io/touski/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
             <a href="https://github.com/polerix/touski" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble pinned" data-category="pinned" data-name="vax-console-sim" data-search="vax-console-sim vaxserver 4000/300 diagnostic console sim  a browser-based, interactive simulation of the boot diagnostic process for a dec vaxserver 4000 model" style="--bg-image: url(resources/screenshots/vax-console-sim.png);">
+        <div class="bubble pinned" data-category="pinned" data-name="neutral-zero" data-search="neutral-zero " style="--bg-image: url(resources/screenshots/neutral-zero.png);">
           <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-02</span>
+            <span class="sys-id">BIGTIMETV-PRIORITY-02</span>
             <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
           </div>
-          <div class="name">vax-console-sim</div>
-          <div class="desc">VAXserver 4000/300 Diagnostic Console Sim  A browser-based, interactive simulation of the boot diagnostic process for a DEC VAXserver 4000 M...</div>
+          <div class="name">neutral-zero</div>
+          <div class="desc"></div>
           <div class="actions">
-            <a href="https://github.com/polerix/vax-console-sim" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="aetherstones-council-of-green-point" data-search="aetherstones-council-of-green-point like skylanders but not" style="--bg-image: url(resources/screenshots/aetherstones-council-of-green-point.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-03</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">aetherstones-council-of-green-point</div>
-          <div class="desc">like skylanders but not</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/aetherstones-council-of-green-point" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="pixel-duel-ii" data-search="pixel-duel-ii yeehaw partner" style="--bg-image: url(resources/screenshots/pixel-duel-ii.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-04</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">pixel-duel-ii</div>
-          <div class="desc">yeehaw partner</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/pixel-duel-ii" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="pixel-duel" data-search="pixel-duel the first pixel duel" style="--bg-image: url(resources/screenshots/pixel-duel.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-05</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">pixel-duel</div>
-          <div class="desc">the first Pixel Duel</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/pixel-duel" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="security-adventure" data-search="security-adventure choose your own adventure processor" style="--bg-image: url(resources/screenshots/security-adventure.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-06</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">security-adventure</div>
-          <div class="desc">Choose your own adventure processor</div>
-          <div class="actions">
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="big0time" data-search="big0time a big old pink bus with a uhf antenna">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-07</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">big0time</div>
-          <div class="desc">A big old Pink bus with a UHF antenna</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/big0time" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/neutral-zero/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/neutral-zero" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
         <div class="bubble pinned" data-category="pinned" data-name="mobius-farm-ii" data-search="mobius-farm-ii " style="--bg-image: url(resources/screenshots/mobius-farm-ii.png);">
           <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-08</span>
+            <span class="sys-id">BIGTIMETV-PRIORITY-03</span>
             <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
           </div>
           <div class="name">mobius-farm-ii</div>
           <div class="desc"></div>
           <div class="actions">
+            <a href="https://polerix.github.io/mobius-farm-ii/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
             <a href="https://github.com/polerix/mobius-farm-ii" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble pinned" data-category="pinned" data-name="kraemeverse-wiki" data-search="kraemeverse-wiki " style="--bg-image: url(resources/screenshots/kraemeverse-wiki.png);">
+        <div class="bubble pinned" data-category="pinned" data-name="security-adventure" data-search="security-adventure choose your own adventure processor" style="--bg-image: url(resources/screenshots/security-adventure.png);">
           <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-09</span>
+            <span class="sys-id">BIGTIMETV-PRIORITY-04</span>
             <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
           </div>
-          <div class="name">kraemeverse-wiki</div>
-          <div class="desc"></div>
+          <div class="name">security-adventure</div>
+          <div class="desc">choose your own adventure processor</div>
           <div class="actions">
-            <a href="https://github.com/polerix/kraemeverse-wiki" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="satans-spreadsheet" data-search="satans-spreadsheet " style="--bg-image: url(resources/screenshots/satans-spreadsheet.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-10</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">satans-spreadsheet</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/satans-spreadsheet" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="tornado-cones" data-search="tornado-cones for great justice take off every zig" style="--bg-image: url(resources/screenshots/tornado-cones.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-11</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">tornado-cones</div>
-          <div class="desc">For great justice take off every Zig</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/tornado-cones" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="spinnercockpit" data-search="spinnercockpit a full-screen blade runner spinner cockpit hud designed to align with a 3d-printed samsung galaxy s10+ mask.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-12</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">SpinnerCockpit</div>
-          <div class="desc">A full-screen Blade Runner Spinner cockpit HUD designed to align with a 3D-printed Samsung Galaxy S10+ mask.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/SpinnerCockpit" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble pinned" data-category="pinned" data-name="mobius-farm" data-search="mobius-farm mobius strip with a mushroom energy capture farm on it - oh, and yeah, there&#39;s aliens who want it." style="--bg-image: url(resources/screenshots/mobius-farm.png);">
-          <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-13</span>
-            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
-          </div>
-          <div class="name">mobius-farm</div>
-          <div class="desc">mobius strip with a mushroom energy capture farm on it - oh, and yeah, there&#39;s aliens who want it.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/mobius-farm" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/security-adventure/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/security-adventure" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
         <div class="bubble pinned" data-category="pinned" data-name="squarewatch" data-search="squarewatch a canadian streaming-availability tracker for films and series.">
           <div class="card-header">
-            <span class="sys-id">LCARS-PRIORITY-14</span>
+            <span class="sys-id">BIGTIMETV-PRIORITY-05</span>
             <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
           </div>
           <div class="name">SquareWatch</div>
           <div class="desc">A Canadian streaming-availability tracker for films and series.</div>
           <div class="actions">
+            <a href="https://polerix.github.io/Squarewatch/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
             <a href="https://github.com/polerix/Squarewatch" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+          </div>
+        </div>
+        <div class="bubble pinned" data-category="pinned" data-name="esper-machine" data-search="esper machine a blade runner esper photo-analysis console with a cinematic 3d interface.">
+          <div class="card-header">
+            <span class="sys-id">BIGTIMETV-PRIORITY-06</span>
+            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
+          </div>
+          <div class="name">ESPER machine</div>
+          <div class="desc">A Blade Runner ESPER photo-analysis console with a cinematic 3D interface.</div>
+          <div class="actions">
+            <a href="https://polerix.github.io/ESPER-machine/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/ESPER-machine" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+          </div>
+        </div>
+        <div class="bubble pinned" data-category="pinned" data-name="swarm-system-lab" data-search="swarm-system-lab autonomous hive warfare sandbox tuned for github pages.">
+          <div class="card-header">
+            <span class="sys-id">BIGTIMETV-PRIORITY-07</span>
+            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
+          </div>
+          <div class="name">swarm-system-lab</div>
+          <div class="desc">Autonomous hive warfare sandbox tuned for GitHub Pages.</div>
+          <div class="actions">
+            <a href="https://polerix.github.io/swarm-system-lab/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/swarm-system-lab" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+          </div>
+        </div>
+        <div class="bubble pinned" data-category="pinned" data-name="sandrine-portfolio" data-search="sandrine-portfolio " style="--bg-image: url(resources/screenshots/sandrine-portfolio.png);">
+          <div class="card-header">
+            <span class="sys-id">BIGTIMETV-PRIORITY-08</span>
+            <span class="lcars-tag tag-pinned">🥇 FEATURED</span>
+          </div>
+          <div class="name">sandrine-portfolio</div>
+          <div class="desc"></div>
+          <div class="actions">
+            <a href="https://polerix.github.io/sandrine-portfolio/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/sandrine-portfolio" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
     </div>
@@ -720,467 +664,125 @@
     <!-- SECTION: NEWLY CHANGED -->
     <div class="lcars-section-header gold" id="sec-business">
       <div class="lcars-elbow-top"></div>
-      <div class="lcars-header-text">02 // NEWLY CHANGED (6 NODES)</div>
+      <div class="lcars-header-text">02 // NEWLY CHANGED (0 CHANNELS)</div>
       <div class="lcars-header-bar"></div>
     </div>
     <div class="grid" id="grid-business">
-        <div class="bubble" data-category="business" data-name="bleunuit" data-search="bleunuit recreating the bleu nuit title screen">
-          <div class="card-header">
-            <span class="sys-id">LCARS-NEW-01</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span></div>
-          </div>
-          <div class="name">Bleunuit</div>
-          <div class="desc">Recreating the Bleu Nuit title screen</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Bleunuit" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="business" data-name="pdp1173-sim" data-search="pdp1173-sim ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-NEW-02</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span></div>
-          </div>
-          <div class="name">pdp1173-sim</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/pdp1173-sim" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="business" data-name="gnruselessdelusion64" data-search="gnruselessdelusion64 ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-NEW-03</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span></div>
-          </div>
-          <div class="name">GNRUselessDelusion64</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/GNRUselessDelusion64" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="business" data-name="cassetto" data-search="cassetto web and desktop audio recorder made of wood!">
-          <div class="card-header">
-            <span class="sys-id">LCARS-NEW-04</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span></div>
-          </div>
-          <div class="name">Cassetto</div>
-          <div class="desc">Web and Desktop audio recorder made of Wood!</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Cassetto" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="business" data-name="comic-press" data-search="comic-press generate 4 pages of comics">
-          <div class="card-header">
-            <span class="sys-id">LCARS-NEW-05</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span></div>
-          </div>
-          <div class="name">comic-press</div>
-          <div class="desc">generate 4 pages of comics</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/comic-press" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="business" data-name="esper-machine" data-search="esper machine a blade runner esper photo-analysis console with a cinematic 3d interface.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-NEW-06</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span></div>
-          </div>
-          <div class="name">ESPER machine</div>
-          <div class="desc">A Blade Runner ESPER photo-analysis console with a cinematic 3D interface.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/ESPER-machine" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
     </div>
 
     <!-- SECTION: WHATEVER -->
     <div class="lcars-section-header blue" id="sec-games">
       <div class="lcars-elbow-top"></div>
-      <div class="lcars-header-text">03 // WHATEVER (35 NODES)</div>
+      <div class="lcars-header-text">03 // WHATEVER (9 CHANNELS)</div>
       <div class="lcars-header-bar"></div>
     </div>
     <div class="grid" id="grid-games">
-        <div class="bubble" data-category="games" data-name="leap-frogs" data-search="leap frogs a mouse- and touch-controlled arcade game about catching descending frogs.">
+        <div class="bubble" data-category="games" data-name="ascii-lab" data-search="ascii-lab ">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-01</span>
+            <span class="sys-id">BIGTIMETV-WEB-01</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
-          <div class="name">Leap Frogs</div>
-          <div class="desc">A mouse- and touch-controlled arcade game about catching descending frogs.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/leap-frogs" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="butterpass-95" data-search="butterpass-95 ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-02</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">ButterPass-95</div>
+          <div class="name">ascii-lab</div>
           <div class="desc"></div>
           <div class="actions">
-            <a href="https://github.com/polerix/ButterPass-95" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/ascii-lab/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/ascii-lab" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble" data-category="games" data-name="demon-attack" data-search="demon-attack retro game defending against flying demons">
+        <div class="bubble" data-category="games" data-name="glitcher-app" data-search="glitcher-app ">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-03</span>
+            <span class="sys-id">BIGTIMETV-WEB-02</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
-          <div class="name">Demon-Attack</div>
-          <div class="desc">Retro game defending against flying demons</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Demon-Attack" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="alien-hive" data-search="alien-hive run an off-planet installation just like yayland-wutani">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-04</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">alien-hive</div>
-          <div class="desc">Run an off-planet installation just like Yayland-Wutani</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/alien-hive" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="otv" data-search="otv ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-05</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">otv</div>
+          <div class="name">glitcher-app</div>
           <div class="desc"></div>
           <div class="actions">
-            <a href="https://github.com/polerix/otv" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/glitcher-app/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/glitcher-app" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble" data-category="games" data-name="flipside" data-search="flipside flipside bar management tool">
+        <div class="bubble" data-category="games" data-name="chunkymatrix" data-search="chunkymatrix a commodore 64 matrix rain screensaver recreated for the browser with crt glow, scanlines, and gyroscope tilt.">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-06</span>
+            <span class="sys-id">BIGTIMETV-WEB-03</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
-          <div class="name">Flipside</div>
-          <div class="desc">flipside bar management tool</div>
+          <div class="name">ChunkyMatrix</div>
+          <div class="desc">A Commodore 64 Matrix rain screensaver recreated for the browser with CRT glow, scanlines, and gyroscope tilt.</div>
           <div class="actions">
-            <a href="https://github.com/polerix/Flipside" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="tony-toni-tone" data-search="tony_toni_tone ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-07</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">tony_toni_tone</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/tony_toni_tone" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="greco-time" data-search="greco-time ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-08</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">greco-time</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/greco-time" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="burger-time" data-search="burger-time ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-09</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">burger-time</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/burger-time" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="cosmicwebvr" data-search="cosmicwebvr ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-10</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">CosmicWebVR</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/CosmicWebVR" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="soul-forge" data-search="soul-forge ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-11</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">soul-forge</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/soul-forge" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="pilbo" data-search="pilbo help the magus aurelius feed the homunculus pilbo to see what the newly made magic pills do.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-12</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">pilbo</div>
-          <div class="desc">Help the Magus Aurelius feed the homunculus Pilbo to see what the newly made magic pills do.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/pilbo" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="fishbone" data-search="fishbone fishbone diagram.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-13</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">fishbone</div>
-          <div class="desc">Fishbone diagram.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/fishbone" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="vk-terminal" data-search="vk_terminal web version of vk terminal for use on raspberry pi with chromium kiosk">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-14</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">VK_Terminal</div>
-          <div class="desc">Web version of VK Terminal for use on Raspberry Pi with Chromium Kiosk</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/VK_Terminal" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="mooshoother" data-search="mooshoother ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-15</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">MooShoother</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/MooShoother" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="tornadoconesvr" data-search="tornadoconesvr ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-16</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">TornadoConesVR</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/TornadoConesVR" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="bus-broadcaster" data-search="bus-broadcaster ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-17</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">bus-broadcaster</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/bus-broadcaster" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="hal9000" data-search="hal9000 hal9000 terminal interface for raspberry pi.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-18</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">HAL9000</div>
-          <div class="desc">HAL9000 terminal interface for Raspberry Pi.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/HAL9000" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="headroom" data-search="headroom ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-19</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">headroom</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/headroom" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="tubbers" data-search="tubbers ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-20</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">tubbers</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/tubbers" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="neutral-zero" data-search="neutral-zero ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-21</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">neutral-zero</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/neutral-zero" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="moofo" data-search="moofo ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-22</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">moofo</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/moofo" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="gibson-cyberspace" data-search="gibson-cyberspace ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-23</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">gibson-cyberspace</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/gibson-cyberspace" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/ChunkyMatrix/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/ChunkyMatrix" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
         <div class="bubble" data-category="games" data-name="defrag-tool" data-search="defrag-tool ">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-24</span>
+            <span class="sys-id">BIGTIMETV-WEB-04</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
           <div class="name">defrag-tool</div>
           <div class="desc"></div>
           <div class="actions">
+            <a href="https://polerix.github.io/defrag-tool/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
             <a href="https://github.com/polerix/defrag-tool" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
         <div class="bubble" data-category="games" data-name="servoskull" data-search="servoskull working online and offline on the servoskull project.">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-25</span>
+            <span class="sys-id">BIGTIMETV-WEB-05</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
           <div class="name">ServoSkull</div>
           <div class="desc">Working online and offline on the ServoSkull project.</div>
           <div class="actions">
+            <a href="https://polerix.github.io/ServoSkull/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
             <a href="https://github.com/polerix/ServoSkull" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble" data-category="games" data-name="obstricloner" data-search="obstricloner ">
+        <div class="bubble" data-category="games" data-name="eclipse-stimulator" data-search="eclipse-stimulator eclipse stimulator">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-26</span>
+            <span class="sys-id">BIGTIMETV-WEB-06</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
-          <div class="name">OBSTriCloner</div>
+          <div class="name">eclipse-stimulator</div>
+          <div class="desc">Eclipse stimulator</div>
+          <div class="actions">
+            <a href="https://polerix.github.io/eclipse-stimulator/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/eclipse-stimulator" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+          </div>
+        </div>
+        <div class="bubble" data-category="games" data-name="minxer" data-search="minxer ">
+          <div class="card-header">
+            <span class="sys-id">BIGTIMETV-WEB-07</span>
+            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
+          </div>
+          <div class="name">minxer</div>
           <div class="desc"></div>
           <div class="actions">
-            <a href="https://github.com/polerix/OBSTriCloner" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/minxer/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/minxer" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble" data-category="games" data-name="maticspirits" data-search="maticspirits server-backed matic spirit generator portal with one-of-one serials, faction skins, duel rites, and a searchable turnaround vault.">
+        <div class="bubble" data-category="games" data-name="bigtrouble" data-search="bigtrouble ">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-27</span>
+            <span class="sys-id">BIGTIMETV-WEB-08</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
-          <div class="name">MaticSpirits</div>
-          <div class="desc">Server-backed Matic Spirit generator portal with one-of-one serials, faction skins, duel rites, and a searchable turnaround vault.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/MaticSpirits" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="swarm-system-lab" data-search="swarm-system-lab autonomous hive warfare sandbox tuned for github pages.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-28</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">swarm-system-lab</div>
-          <div class="desc">Autonomous hive warfare sandbox tuned for GitHub Pages.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/swarm-system-lab" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="purgeclock" data-search="purgeclock a retro sci-fi crt clock, weather terminal and alarm">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-29</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">purgeclock</div>
-          <div class="desc">A retro sci-fi CRT clock, weather terminal and alarm</div>
-          <div class="actions">
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="room-stimulator" data-search="room-stimulator its a room.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-30</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">room-stimulator</div>
-          <div class="desc">Its a room.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/room-stimulator" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="motion-tracker" data-search="motion-tracker aliens motion tracker for rpg">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-31</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">motion-tracker</div>
-          <div class="desc">aliens motion tracker for RPG</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/motion-tracker" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="colonbo" data-search="colonbo ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-32</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">colonbo</div>
+          <div class="name">BigTrouble</div>
           <div class="desc"></div>
           <div class="actions">
-            <a href="https://github.com/polerix/colonbo" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/BigTrouble/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/BigTrouble" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
-        <div class="bubble" data-category="games" data-name="sandrine-portfolio" data-search="sandrine-portfolio ">
+        <div class="bubble" data-category="games" data-name="mulchmusic" data-search="mulchmusic trying out a shader/shidder">
           <div class="card-header">
-            <span class="sys-id">LCARS-WEB-33</span>
+            <span class="sys-id">BIGTIMETV-WEB-09</span>
             <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
           </div>
-          <div class="name">sandrine-portfolio</div>
-          <div class="desc"></div>
+          <div class="name">MulchMusic</div>
+          <div class="desc">Trying out a shader/shidder</div>
           <div class="actions">
-            <a href="https://github.com/polerix/sandrine-portfolio" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="ledpanel" data-search="ledpanel ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-34</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">ledpanel</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/ledpanel" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="games" data-name="ecosystem-vs-vandalism" data-search="ecosystem-vs-vandalism ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-WEB-35</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span></div>
-          </div>
-          <div class="name">ecosystem-vs-vandalism</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/ecosystem-vs-vandalism" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://polerix.github.io/MulchMusic/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
+            <a href="https://github.com/polerix/MulchMusic" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
     </div>
@@ -1188,978 +790,30 @@
     <!-- SECTION: LEGACY HOLDING GRID -->
     <div class="lcars-section-header purple" id="sec-toys">
       <div class="lcars-elbow-top"></div>
-      <div class="lcars-header-text">04 // LEGACY HOLDING GRID (90 NODES)</div>
+      <div class="lcars-header-text">04 // LEGACY HOLDING GRID (2 CHANNELS)</div>
       <div class="lcars-header-bar"></div>
     </div>
     <div class="grid" id="grid-toys">
-        <div class="bubble" data-category="toys" data-name="ascii-lab" data-search="ascii-lab ">
+        <div class="bubble" data-category="toys" data-name="big0time" data-search="big0time a big old pink bus with a uhf antenna">
           <div class="card-header">
-            <span class="sys-id">LCARS-LEG-01</span>
+            <span class="sys-id">BIGTIMETV-LEG-01</span>
             <div class="card-badges"><span class="lcars-tag tag-recent">🔥 RECENT</span><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
           </div>
-          <div class="name">ascii-lab</div>
-          <div class="desc"></div>
+          <div class="name">big0time</div>
+          <div class="desc">A big old Pink bus with a UHF antenna</div>
           <div class="actions">
-            <a href="https://github.com/polerix/ascii-lab" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="glitcher-app" data-search="glitcher-app ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-02</span>
-            <div class="card-badges"><span class="lcars-tag tag-recent">🔥 RECENT</span><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">glitcher-app</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/glitcher-app" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="autolander" data-search="autolander auto-landing and auto-launch system.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-03</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">autolander</div>
-          <div class="desc">Auto-landing and auto-launch system.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/autolander" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="voight-kampff-model" data-search="voight-kampff-model ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-04</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">voight-kampff-model</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/voight-kampff-model" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="polerix-code-toolkit" data-search="polerix-code-toolkit shared, tested browser runtime, templates and the steward housekeeping runner for the polerix repos">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-05</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">polerix-code-toolkit</div>
-          <div class="desc">Shared, tested browser runtime, templates and the steward housekeeping runner for the Polerix repos</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/polerix-code-toolkit" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="esper-09-af" data-search="esper 09-af under construction: a retro-industrial web console and native macos controller for the logitech quickcam orbit af.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-06</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">ESPER 09-AF</div>
-          <div class="desc">Under construction: a retro-industrial web console and native macOS controller for the Logitech QuickCam Orbit AF.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/ESPER-09-AF" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="aqua-sleeve" data-search="aqua-sleeve sleeve-based personality and memory management for an ai agent.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-07</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">aqua-sleeve</div>
-          <div class="desc">Sleeve-based personality and memory management for an AI agent.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/aqua-sleeve" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="kineplex" data-search="kineplex ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-08</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">Kineplex</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Kineplex" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="hackers-team" data-search="hackers-team hack the gibson: a spaceteam-style co-op hacking game set in the world of the 1995 movie hackers.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-09</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">hackers-team</div>
-          <div class="desc">Hack the Gibson: a Spaceteam-style co-op hacking game set in the world of the 1995 movie Hackers.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/hackers-team" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="cosmic-brawler" data-search="cosmic-brawler ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-10</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">cosmic-brawler</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/cosmic-brawler" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="moovers" data-search="moovers games in the mooverse.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-11</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">MooVers</div>
-          <div class="desc">Games in the MooVerse.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/MooVers" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="payload-emulator-loop" data-search="payload-emulator-loop ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-12</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">payload-emulator-loop</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/payload-emulator-loop" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="moof-patrol" data-search="moof-patrol ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-13</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">moof-patrol</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/moof-patrol" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="labyrinth-explorer-1" data-search="labyrinth-explorer-1 ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-14</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">labyrinth-explorer-1</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/labyrinth-explorer-1" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="kung-fu" data-search="kung-fu ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-15</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">kung-fu</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/kung-fu" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="bubalina" data-search="bubalina ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-16</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">bubalina</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/bubalina" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="bpm-vending-pigs" data-search="bpm-vending-pigs ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-17</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">bpm-vending-pigs</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/bpm-vending-pigs" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="tmp-nz" data-search="tmp-nz ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-18</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">tmp-nz</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/tmp-nz" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="moo-shroom" data-search="moo-shroom ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-19</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">moo-shroom</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/moo-shroom" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="lucid-reader" data-search="lucid-reader ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-20</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">lucid-reader</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/lucid-reader" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="c64-os" data-search="c64-os makes your pi look like a c=64 basic screen in terminal">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-21</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">c64-os</div>
-          <div class="desc">makes your pi look like a C=64 Basic screen in Terminal</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/c64-os" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="bus-broadcaster-swift" data-search="bus-broadcaster-swift bus broadcaster swift — pirate uhf broadcast sim with soul-forge emobar mood system">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-22</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">bus-broadcaster-swift</div>
-          <div class="desc">Bus Broadcaster Swift — pirate UHF broadcast sim with soul-forge EmoBar mood system</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/bus-broadcaster-swift" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="recordmonitor" data-search="recordmonitor live audio passthrough and visualiser for usb record players (macos)">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-23</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">RecordMonitor</div>
-          <div class="desc">Live audio passthrough and visualiser for USB record players (macOS)</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/RecordMonitor" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="raspberry-pi-fallout" data-search="raspberry-pi-fallout ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-24</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">raspberry-pi-fallout</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/raspberry-pi-fallout" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="raspberry-pi-2-b-commodore-1701-screen" data-search="raspberry-pi-2-b-commodore-1701-screen ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-25</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">raspberry-pi-2-b-commodore-1701-screen</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/raspberry-pi-2-b-commodore-1701-screen" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="blinkwell-observer" data-search="blinkwell-observer ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-26</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">blinkwell-observer</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/blinkwell-observer" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="displayguarddog" data-search="displayguarddog keeps your screens from moving around over kvm switching.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-27</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">DisplayGuardDog</div>
-          <div class="desc">Keeps your screens from moving around over KVM switching.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/DisplayGuardDog" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="comedia" data-search="comedia fun surveys.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-28</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">comedia</div>
-          <div class="desc">Fun surveys.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/comedia" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="arr-type" data-search="arr-type r-type clone with pirate theme.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-29</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">Arr-Type</div>
-          <div class="desc">R-Type clone with pirate theme.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Arr-Type" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="egg-rush" data-search="egg_rush get eggs before the goat does.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-30</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">Egg_Rush</div>
-          <div class="desc">Get eggs before the goat does.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Egg_Rush" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="last-dance-in-dry-gulcg" data-search="last-dance-in-dry-gulcg ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-31</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">last-dance-in-dry-gulcg</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/last-dance-in-dry-gulcg" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="maudlin-modellers" data-search="maudlin-modellers ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-32</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">maudlin-modellers</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/maudlin-modellers" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="move-blaster" data-search="move-blaster ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-33</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">move-blaster</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/move-blaster" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="xenohive-gauntlet" data-search="xenohive-gauntlet ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-34</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">xenohive-gauntlet</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/xenohive-gauntlet" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="obs-projects" data-search="obs-projects ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-35</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">📦 REPO ONLY</span></div>
-          </div>
-          <div class="name">obs-projects</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/obs-projects" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="c64upgrade" data-search="c64upgrade tracking work with c64 upgrade.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-36</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">c64upgrade</div>
-          <div class="desc">Tracking work with c64 upgrade.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/c64upgrade" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="maudlinmodellers" data-search="maudlinmodellers tracking electronics and hardware in maudlin modellers.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-37</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">MaudlinModellers</div>
-          <div class="desc">Tracking electronics and hardware in Maudlin Modellers.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/MaudlinModellers" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="stronkbot" data-search="stronkbot a side scroller mech game.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-38</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">stronkbot</div>
-          <div class="desc">A side scroller mech game.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/stronkbot" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="skills-introduction-to-github" data-search="skills-introduction-to-github my clone repository for github intro.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-39</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">skills-introduction-to-github</div>
-          <div class="desc">My clone repository for GitHub intro.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/skills-introduction-to-github" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
+            <a href="https://github.com/polerix/big0time" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
         <div class="bubble" data-category="toys" data-name="skills-github-pages" data-search="skills-github-pages my clone repository for pages.">
           <div class="card-header">
-            <span class="sys-id">LCARS-LEG-40</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
+            <span class="sys-id">BIGTIMETV-LEG-02</span>
+            <div class="card-badges"><span class="lcars-tag tag-muted">🗄 ARCHIVED</span></div>
           </div>
           <div class="name">skills-github-pages</div>
           <div class="desc">My clone repository for pages.</div>
           <div class="actions">
             <a href="https://github.com/polerix/skills-github-pages" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="telepod-teleprompter" data-search="telepod-teleprompter a multi-layer teleprompter with variable web page backgrounds.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-41</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">Telepod-Teleprompter</div>
-          <div class="desc">A multi-layer teleprompter with variable web page backgrounds.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Telepod-Teleprompter" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="dirtygenerator" data-search="dirtygenerator small web page that generates memes.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-42</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">dirtygenerator</div>
-          <div class="desc">Small web page that generates memes.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/dirtygenerator" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="soundboard" data-search="soundboard soundboard for dungeons and dragons.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-43</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">soundboard</div>
-          <div class="desc">Soundboard for dungeons and dragons.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/soundboard" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="octoprint-setup" data-search="octoprint_setup where i keep my octoprint instance setup.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-44</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">Octoprint_Setup</div>
-          <div class="desc">Where I keep my Octoprint instance setup.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Octoprint_Setup" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="gitbag" data-search="gitbag pithon and node-red dev.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-45</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">GitBag</div>
-          <div class="desc">Pithon and Node-red dev.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/GitBag" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="millenium-falcon-control" data-search="millenium-falcon-control to control a raspberry pi in a millenium falcon.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-46</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">Millenium-Falcon-Control</div>
-          <div class="desc">To control a Raspberry Pi in a Millenium Falcon.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Millenium-Falcon-Control" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="jouetlemarchand" data-search="jouetlemarchand lemarchand puzzle box.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-47</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⌨ NON-WEB</span></div>
-          </div>
-          <div class="name">JouetLeMarchand</div>
-          <div class="desc">Lemarchand Puzzle Box.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/JouetLeMarchand" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="gods-eye-view" data-search="god&#39;s eye view a browser-based spy-satellite simulator that brings public aircraft, ships, satellites, traffic, and camera feeds into a 3d globe.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-48</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">God&#39;s Eye View</div>
-          <div class="desc">A browser-based spy-satellite simulator that brings public aircraft, ships, satellites, traffic, and camera feeds into a 3D globe.</div>
-          <div class="actions">
-            <a href="https://www.spatialintelligence.ai/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/gods-eye-view" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="tyrel-voight-campff-empathy-test" data-search="tyrel_voight-campff_empathy_test a ncurses based clone of the voight_kampff empathy test nachine">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-49</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">Tyrel_Voight-Campff_Empathy_Test</div>
-          <div class="desc">A ncurses based clone of the Voight_Kampff Empathy test nachine</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Tyrel_Voight-Campff_Empathy_Test" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="agenda-c64" data-search="agenda_c64 ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-50</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">agenda_c64</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/agenda_c64" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="raspyjack" data-search="raspyjack small offensive network toolkit for raspberry pi (+ waveshare 1.44″ lcd hat) and cardputer zero inspired by pager and sharkjack fonctionnalities.  for">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-51</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">raspyjack</div>
-          <div class="desc">Small offensive network toolkit for Raspberry Pi (+ Waveshare 1.44″ LCD HAT) and Cardputer Zero inspired by pager and sharkjack fonctionnali...</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/raspyjack" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="silo-os" data-search="silo-os fan recreation of the computer interfaces from silo (apple tv+). vanilla js + three.js, crt effects, attract loop. non-commercial fan project.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-52</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">silo-os</div>
-          <div class="desc">Fan recreation of the computer interfaces from SILO (Apple TV+). Vanilla JS + Three.js, CRT effects, attract loop. Non-commercial fan projec...</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/silo-os" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="elegg-jp-retro-crt" data-search="elegg.jp-retro-crt ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-53</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">elegg.jp-retro-crt</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/elegg.jp-retro-crt" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="subwave" data-search="subwave personal internet radio: agentic ai dj">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-54</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">subwave</div>
-          <div class="desc">Personal internet radio: Agentic AI DJ</div>
-          <div class="actions">
-            <a href="https://www.getsubwave.com" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/subwave" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="deskradar" data-search="deskradar flightradar display">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-55</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">deskradar</div>
-          <div class="desc">Flightradar display</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/deskradar" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="hacker-news-tui" data-search="hacker-news-tui a terminal ui for browsing hacker news - feeds, threaded comments, bookmarks. built with rust and ratatui.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-56</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">hacker-news-tui</div>
-          <div class="desc">A terminal UI for browsing Hacker News - feeds, threaded comments, bookmarks. Built with Rust and Ratatui.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/hacker-news-tui" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="3dsvg" data-search="3dsvg the easiest way to turn svgs into interactive react 3d components">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-60</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">3dsvg</div>
-          <div class="desc">The easiest way to turn SVGs into interactive React 3D components</div>
-          <div class="actions">
-            <a href="https://3dsvg.design" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/3dsvg" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="vidlens-mcp" data-search="vidlens-mcp ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-61</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">vidlens-mcp</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/vidlens-mcp" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="rpi-ai-deskbuddy-v-1-0" data-search="rpi_ai_deskbuddy_v.1.0 branch of rpi_ai_deskbuddy">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-62</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">RPI_AI_DeskBuddy_v.1.0</div>
-          <div class="desc">Branch of RPI_AI_DeskBuddy</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/RPI_AI_DeskBuddy_v.1.0" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="leaked-claude-code" data-search="leaked-claude-code ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-63</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">leaked-claude-code</div>
-          <div class="desc"></div>
-          <div class="actions">
-            <a href="https://github.com/polerix/leaked-claude-code" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="voicebox" data-search="voicebox the open-source voice synthesis studio">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-64</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">voicebox</div>
-          <div class="desc">The open-source voice synthesis studio</div>
-          <div class="actions">
-            <a href="https://voicebox.sh" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/voicebox" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="crucixsys" data-search="crucixsys your personal intelligence agent. watches the world from multiple data sources and pings you when something changes.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-65</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">CrucixSYS</div>
-          <div class="desc">Your personal intelligence agent. Watches the world from multiple data sources and pings you when something changes.</div>
-          <div class="actions">
-            <a href="https://crucix.live" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/CrucixSYS" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="pip-terminal" data-search="pip-terminal pip-boy.com is a community-driven hub dedicated to bringing the iconic pip-boy experience to the web. explore interactive interfaces and companion ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-66</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">pip-terminal</div>
-          <div class="desc">Pip-Boy.com is a community-driven hub dedicated to bringing the iconic Pip-Boy experience to the web. Explore interactive interfaces and com...</div>
-          <div class="actions">
-            <a href="https://www.Pip-Boy.com" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/pip-terminal" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="everything-claude-code" data-search="everything-claude-code the agent harness performance optimization system. skills, instincts, memory, security, and research-first development for claude code, c">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-67</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">everything-claude-code</div>
-          <div class="desc">The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Code...</div>
-          <div class="actions">
-            <a href="https://ecc.tools" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/everything-claude-code" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="big0time-transmitter" data-search="big0time_transmitter take control over your live stream video by running it yourself.  streaming + chat out of the box.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-68</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">Big0Time_Transmitter</div>
-          <div class="desc">Take control over your live stream video by running it yourself.  Streaming + chat out of the box.</div>
-          <div class="actions">
-            <a href="https://owncast.online" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/Big0Time_Transmitter" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="scrapling" data-search="scrapling 🕷️ an adaptive web scraping framework that handles everything from a single request to a full-scale crawl!">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-69</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">Scrapling</div>
-          <div class="desc">🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!</div>
-          <div class="actions">
-            <a href="https://scrapling.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/Scrapling" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="network23" data-search="network23 broadcast &amp; cable tv simulator">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-70</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">Network23</div>
-          <div class="desc">Broadcast &amp; Cable TV simulator</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Network23" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="textream" data-search="textream textream is a free macos teleprompter app for streamers, interviewers, and presenters. it highlights your script in real-time as you speak, displayed i">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-71</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">textream</div>
-          <div class="desc">Textream is a free macOS teleprompter app for streamers, interviewers, and presenters. It highlights your script in real-time as you speak, ...</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/textream" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="openclaw-otv-newsroom" data-search="openclaw-otv-newsroom automated ai news scanning pipeline for openclaw — 5 data sources, quality scoring, gemini flash editorial curation. ~$5/month.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-72</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">openclaw-OTV-newsroom</div>
-          <div class="desc">Automated AI news scanning pipeline for OpenClaw — 5 data sources, quality scoring, Gemini Flash editorial curation. ~$5/month.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/openclaw-OTV-newsroom" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="3d-lab" data-search="3d-lab where i store firmware, documentation and other things related to my 3d-printer">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-73</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">3d-lab</div>
-          <div class="desc">Where i store firmware, documentation and other things related to my 3D-Printer</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/3d-lab" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="piboy" data-search="piboy build your own pip-boy using your raspberry pi">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-74</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">piboy</div>
-          <div class="desc">Build your own Pip-Boy using your Raspberry Pi</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/piboy" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="claude-code-tamagotchi" data-search="claude-code-tamagotchi real-time behavioral enforcement for claude code. monitors ai actions, detects violations, and interrupts misbehavior. also has a cute pe">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-75</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">claude-code-tamagotchi</div>
-          <div class="desc">Real-time behavioral enforcement for Claude Code. Monitors AI actions, detects violations, and interrupts misbehavior. Also has a cute pet.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/claude-code-tamagotchi" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="nodemcu-firmware" data-search="nodemcu-firmware lua based interactive firmware for esp8266, esp8285 and esp32">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-76</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">nodemcu-firmware</div>
-          <div class="desc">Lua based interactive firmware for ESP8266, ESP8285 and ESP32</div>
-          <div class="actions">
-            <a href="https://nodemcu.readthedocs.io" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/nodemcu-firmware" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="pokemon-js" data-search="pokemon-js classic pokémon yellow battles built for the web">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-77</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">pokemon-js</div>
-          <div class="desc">Classic Pokémon Yellow battles built for the web</div>
-          <div class="actions">
-            <a href="https://pascalpixel.com/work/pokemon-js" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/pokemon-js" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="edex-ui" data-search="edex-ui a science fiction desktop running everywhere. awesome.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-78</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">edex-ui</div>
-          <div class="desc">A science fiction desktop running everywhere. Awesome.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/edex-ui" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="facial-beauty-prediction" data-search="facial-beauty-prediction simple website interface built using flask that allows users to upload selfies to be rated out of 10 by a machine learning model traine">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-79</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">Facial-Beauty-Prediction</div>
-          <div class="desc">Simple website interface built using Flask that allows users to upload selfies to be rated out of 10 by a machine learning model trained on ...</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Facial-Beauty-Prediction" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="git-live-view" data-search="git-live-view view the status of a local git repository and see changes happen in real time">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-80</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">git-live-view</div>
-          <div class="desc">View the status of a local git repository and see changes happen in real time</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/git-live-view" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="conversation-connector" data-search="conversation-connector the conversation connector is a set of components that mediate communication between your conversation workspace and a slack or facebook ">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-81</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">conversation-connector</div>
-          <div class="desc">The Conversation connector is a set of components that mediate communication between your Conversation workspace and a Slack or Facebook app...</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/conversation-connector" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="raspberrypipkg" data-search="raspberrypipkg 64-bit tiano core uefi for the raspberry pi 3 (with devices, linux, netbsd, freebsd and windows on arm!)">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-82</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">RaspberryPiPkg</div>
-          <div class="desc">64-bit Tiano Core UEFI for the Raspberry Pi 3 (with devices, Linux, NetBSD, FreeBSD and Windows on Arm!)</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/RaspberryPiPkg" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="pipes-sh" data-search="pipes.sh animated pipes terminal screensaver">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-83</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">pipes.sh</div>
-          <div class="desc">Animated pipes terminal screensaver</div>
-          <div class="actions">
-            <a href="https://pipeseroni.github.io/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/pipes.sh" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="diarissues" data-search="diarissues get a diary on issues.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-84</span>
-            <div class="card-badges"><span class="lcars-tag tag-static">🌐 PAGES</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">diarissues</div>
-          <div class="desc">Get a diary on Issues.</div>
-          <div class="actions">
-            <a href="https://petrosh.github.io/diarissues/" target="_blank" rel="noopener noreferrer"><button class="lcars-btn open-btn">EXECUTE</button></a>
-            <a href="https://github.com/polerix/diarissues" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="nodebot-opencvpython" data-search="nodebot-opencvpython nodebot opencv">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-85</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">nodebot-opencvpython</div>
-          <div class="desc">nodebot opencv</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/nodebot-opencvpython" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="node-python-opencv" data-search="node-python-opencv module nodejs for python-opencv">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-86</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">node-python-opencv</div>
-          <div class="desc">Module NodeJS for python-opencv</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/node-python-opencv" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="dex-ui" data-search="dex-ui a science fiction desktop running on linux. awesome.">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-87</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">dex-ui</div>
-          <div class="desc">A science fiction desktop running on Linux. Awesome.</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/dex-ui" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="raspi-car" data-search="raspi-car raspberry pi + dagu mini driver based smartphone/browser remote controlled car">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-88</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">raspi-car</div>
-          <div class="desc">Raspberry Pi + Dagu Mini Driver based smartphone/browser remote controlled car</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/raspi-car" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="free-defcad" data-search="free-defcad my counter-censorship">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-89</span>
-            <div class="card-badges"><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">Free-DefCad</div>
-          <div class="desc">My Counter-Censorship</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/Free-DefCad" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
-          </div>
-        </div>
-        <div class="bubble" data-category="toys" data-name="desktopspaceydelayer" data-search="desktopspaceydelayer a rough emulation of the roland re-20 space echo">
-          <div class="card-header">
-            <span class="sys-id">LCARS-LEG-90</span>
-            <div class="card-badges"><span class="lcars-tag tag-new">✨ NEW</span><span class="lcars-tag tag-muted">⑂ FORK</span></div>
-          </div>
-          <div class="name">DesktopSpaceyDelayer</div>
-          <div class="desc">A rough emulation of the Roland RE-20 Space Echo</div>
-          <div class="actions">
-            <a href="https://github.com/polerix/DesktopSpaceyDelayer" target="_blank" rel="noopener noreferrer"><button class="lcars-btn repo-btn">REPOS</button></a>
           </div>
         </div>
     </div>
@@ -2175,7 +829,7 @@
   </div>
 
   <script>
-    // LCARS Web Audio Synthesizer
+    // BIGTIMETV Web Audio Synthesizer
     let audioEnabled = true;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -2252,13 +906,14 @@
       });
     }
 
-    // Dynamic Stardate Calculation
-    function updateStardate() {
+    // Live clock in the header badge
+    function updateClock() {
       const now = new Date();
-      const stardate = (now.getFullYear() - 1900) * 1000 + (now.getMonth() * 30) + now.getDate() + (now.getHours() / 24);
-      document.getElementById('stardate-display').innerText = 'SD ' + stardate.toFixed(1);
+      const pad = (n) => String(n).padStart(2, '0');
+      document.getElementById('clock-display').innerText = pad(now.getHours()) + ':' + pad(now.getMinutes());
     }
-    updateStardate();
+    updateClock();
+    setInterval(updateClock, 30000);
 
     // Attach click audio to buttons
     document.addEventListener('click', (e) => {
