@@ -42,7 +42,6 @@ PINNED_PROJECTS = [
     "sandrine-portfolio",
     "mobius-farm-II",
     "aetherstones-council-of-green-point",
-    "touski",
     "neutral-zero",
     "pixel-duel-ii",
     "pixel-duel",
