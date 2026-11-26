@@ -141,7 +141,6 @@
   ],
   "descriptions": {
     "chunkymatrix": "A Commodore 64 Matrix rain screensaver recreated for the browser with CRT glow, scanlines, and gyroscope tilt.",
-    "gods-eye-view": "A browser-based spy-satellite simulator that brings public aircraft, ships, satellites, traffic, and camera feeds into a 3D globe.",
     "spinnercockpit": "A full-screen Blade Runner Spinner cockpit HUD designed to align with a 3D-printed Samsung Galaxy S10+ mask.",
     "squarewatch": "A Canadian streaming-availability tracker for films and series.",
     "esper-machine": "A Blade Runner ESPER photo-analysis console with a cinematic 3D interface.",
@@ -179,7 +178,6 @@
     "jouetlemarchand": "Lemarchand Puzzle Box."
   },
   "titles": {
-    "gods-eye-view": "God's Eye View",
     "squarewatch": "SquareWatch",
     "esper-machine": "ESPER machine",
     "esper-09-af": "ESPER 09-AF",
